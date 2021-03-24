@@ -18,7 +18,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounting'
+    'accounting',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -112,7 +113,8 @@ USE_L10N = True
 
 USE_TZ = False
 
-
+# config/settings.py
+LOGIN_REDIRECT_URL = '/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -120,3 +122,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 django_heroku.settings(locals())
+IMPORT_EXPORT_USE_TRANSACTIONS = True

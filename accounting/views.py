@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from .models import *
-from .forms import HistoryRecordForm, TransferRecordForm
+from .forms import *
 import datetime, calendar
 import decimal
 
 
 def index(request):
+    if not request.user.is_authenticated:
+        return redirect("/accounts/login/")
     today = datetime.date.today()
     all_accounts = Account.objects.all()
     currencies = Currency.objects.all()
