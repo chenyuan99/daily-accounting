@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from .models import *
 from .forms import *
@@ -405,3 +406,15 @@ def transfer_between_accounts(request):
         return redirect(index)
     else:
         return JsonResponse({"error": "unauthenticated"})
+
+def dashboard(request):
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    query_results = HistoryRecord.objects.all()
+    return render(request, "accounting/dashboard.html", {'query_results': query_results})
+
+def display_categoryList(request):
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    query_results = HistoryRecord.objects.all()
+    return render(request, "accounting/categoryList.html", {'query_results': query_results})
