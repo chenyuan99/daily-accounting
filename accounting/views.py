@@ -411,10 +411,16 @@ def dashboard(request):
     if not request.user.is_authenticated:
         raise PermissionDenied
     query_results = HistoryRecord.objects.all()
-    return render(request, "accounting/dashboard.html", {'query_results': query_results})
+    return render(request, "accounting/billList.html", {'query_results': query_results})
 
 def display_categoryList(request):
     if not request.user.is_authenticated:
         raise PermissionDenied
     query_results = HistoryRecord.objects.all()
+    return render(request, "accounting/categoryList.html", {'query_results': query_results})
+
+def display_accountList(request):
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    query_results = Account.objects.all()
     return render(request, "accounting/categoryList.html", {'query_results': query_results})

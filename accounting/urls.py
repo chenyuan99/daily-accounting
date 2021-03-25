@@ -15,5 +15,6 @@ urlpatterns = [
     path('transfer-between-accounts/', views.transfer_between_accounts, name='transfer_between_accounts'),
     path('pc/dashboard', views.dashboard, name='pc/dashboard'),
     path('pc/dashboard/categoryList', views.display_categoryList,name='pc/dashboard/categoryList'),
+    path('pc/dashboard/accountList', views.display_accountList,name='pc/dashboard/accountList'),
     # path('accounts/', include('django.contrib.auth.urls')),
 ]
