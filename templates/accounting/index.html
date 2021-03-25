@@ -1,52 +1,46 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/fontawesome.min.css"
-        rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css" rel="stylesheet"
-        type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/fontawesome.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.0/dist/echarts.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/jquery-datetimepicker@2.5.21/build/jquery.datetimepicker.min.css"
-        rel="stylesheet">
-    <script
-        src="https://cdn.jsdelivr.net/npm/jquery-datetimepicker@2.5.21/build/jquery.datetimepicker.full.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/jquery-datetimepicker@2.5.21/build/jquery.datetimepicker.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery-datetimepicker@2.5.21/build/jquery.datetimepicker.full.min.js"></script>
     <link rel="stylesheet" href="{% static 'accounting/css/accounting.css' %}">
     <title>独馨记账</title>
 </head>
-
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: white;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">独馨记账</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: white;">
+    <div class="container">
+      <a class="navbar-brand" href="/">独馨记账</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto"></ul>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto"></ul>
 
-                <ul class="navbar-nav mt-2 mt-lg-0">
-                    <li><a class="nav-link" href="/accounting"><i class="bi-list"></i> 记账</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a class="nav-link" href="{% url 'logout' %}"><i class="bi-box-arrow-down"></i>登出</a></li>
-                    {% else %}
-                    <li><a class="nav-link" href="{% url 'login' %}"><i class="bi-person-circle"></i>登录</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
+          <ul class="navbar-nav mt-2 mt-lg-0">
+        <li><a class="nav-link" href="/accounting"><i class="bi-list"></i> 记账</a></li>
+        {% if user.is_authenticated %}
+        <li><a class="nav-link" href="{% url 'logout' %}"><i class="bi-box-arrow-down"></i>登出</a></li>
+        {% else %}
+        <li><a class="nav-link" href="{% url 'login' %}"><i class="bi-person-circle"></i>登录</a></li>
+        {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
     {% if user.is_authenticated %}
     <div class="container" id="top-container">
         <ul class="nav nav-tabs justify-content-center" role="tablist">
@@ -77,17 +71,15 @@
                                 <h6 id="month-expense">{{ current_month_expense }}(元)</h6>
                             </div>
                         </div>
-                        <hr width="90%" class="main-separator" />
+                        <hr width="90%" class="main-separator"/>
                         <div id="account-overview" align="center">
                             <ul class="list-group">
                                 {% for account in accounts %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     {% if account.amount > 0 %}
-                                    <span><i class="{{ account.icon }}"></i>&ensp;{{ account.name }}</span><span
-                                        class="badge badge-pill badge-success">{{ account.amount }}</span>
+                                    <span><i class="{{ account.icon }}"></i>&ensp;{{ account.name }}</span><span class="badge badge-pill badge-success">{{ account.amount }}</span>
                                     {% else %}
-                                    <span><i class="{{ account.icon }}"></i>&ensp;{{ account.name }}</span><span
-                                        class="badge badge-pill badge-danger">{{ account.amount }}</span>
+                                    <span><i class="{{ account.icon }}"></i>&ensp;{{ account.name }}</span><span class="badge badge-pill badge-danger">{{ account.amount }}</span>
                                     {% endif %}
                                 </li>
                                 {% endfor %}
@@ -95,11 +87,9 @@
                         </div>
                         <div class="form-inline my-2 my-lg-0">
                             <div name="search-elements" style="margin: 0px auto;">
-                                <input class="form-control mr-sm-2" type="search" id="search-keyword"
-                                    placeholder="请输入内容">
-                                <button class="btn btn-info my-2 my-sm-0" id="search-record" type="submit"><i
-                                        class="fa fa-search" aria-hidden="true">搜索账单</i></button>
-                                <a class="btn btn-info my-2 my-sm-0" href="/accounting">回到主页</a>
+                                <input class="form-control mr-sm-2" type="search" id="search-keyword" placeholder="请输入内容">
+                                <button class="btn btn-info my-2 my-sm-0" id="search-record" type="submit"><i class="fa fa-search" aria-hidden="true">搜索账单</i></button>
+                                <a class="btn btn-info my-2 my-sm-0" href="/accounting" >回到主页</a>
                             </div>
                         </div>
                         <hr width="90%" />
@@ -115,20 +105,16 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3 mb-3">
-                                    <input type="text" oninput="value=value.replace(/[^\d.]/g,'')" name="amount"
-                                        aria-label="Transfer Money Amount" placeholder="金额" class="form-control"
-                                        required="">
+                                    <input type="text" oninput="value=value.replace(/[^\d.]/g,'')" name="amount" aria-label="Transfer Money Amount" placeholder="金额" class="form-control" required="">
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <input type="text" name="comment" aria-label="Comment" placeholder="备注"
-                                        class="form-control">
+                                    <input type="text" name="comment" aria-label="Comment" placeholder="备注" class="form-control">
                                 </div>
                                 <div class="col-md-1"></div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <input id="transfer-time-occurrence" name="time_of_occurrence" type="text"
-                                        class="form-control">
+                                    <input id="transfer-time-occurrence" name="time_of_occurrence" type="text" class="form-control">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <button type="submit" class="btn btn-info btn-block">转移到账户</button>
@@ -153,11 +139,10 @@
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <button id="show-custom-record" class="btn btn-info btn-block"
-                                    type="submit">按日期筛选</button>
+                                <button id="show-custom-record" class="btn btn-info btn-block" type="submit">按日期筛选</button>
                             </div>
                         </div>
-                        <hr width="90%" class="main-separator" />
+                        <hr width="90%" class="main-separator"/>
                     </div>
                     <div class="col-lg-6 mb-6" id="history-records-overview" align="center">
                         <form action="{% url 'record_income_expense' %}" method="post" class="history-record-form">
@@ -191,24 +176,21 @@
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <select class="custom-select" id="currency-list" name="currency">
-                                                {% for c in currencies %}
-                                                <option value="{{ c.id }}">{{ c.name }}</option>
-                                                {% endfor %}
+                                            {% for c in currencies %}
+                                            <option value="{{ c.id }}">{{ c.name }}</option>
+                                            {% endfor %}
                                             </select>
                                         </div>
-                                        <input type="text" oninput="value=value.replace(/[^\d.]/g,'')" name="amount"
-                                            aria-label="Money Amount" placeholder="金额" class="form-control" required="">
+                                        <input type="text" oninput="value=value.replace(/[^\d.]/g,'')" name="amount" aria-label="Money Amount" placeholder="金额" class="form-control" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-7 mb-3">
-                                    <input type="text" name="comment" aria-label="Comment" placeholder="备注"
-                                        class="form-control">
+                                    <input type="text" name="comment" aria-label="Comment" placeholder="备注" class="form-control">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <input id="time-occurrence" name="time_of_occurrence" type="text"
-                                        class="form-control">
+                                    <input id="time-occurrence" name="time_of_occurrence" type="text" class="form-control">
                                 </div>
                                 <div class="col-md-8 mb-3">
                                     <button type="submit" class="btn btn-info btn-block">记录账单</button>
@@ -217,7 +199,7 @@
                         </form>
                         <p></p>
                         <h5>当月账单列表</h5>
-                        <hr width="90%" class="main-separator" />
+                        <hr width="90%" class="main-separator"/>
                         <div id="record-list">
                             {% for day in day_has_record %}
                             <div class="card" style="margin: 0px 5px 10px 5px;">
@@ -225,41 +207,40 @@
                                     <div style="float: left;">{{ day }}</div>
                                     {% load filter_dict %}
                                     <div style="float: right;">
-                                        收入:{{ day_income_expense|get_dict_value:day|get_dict_value:'income' }} | 支出:{{
-                                        day_income_expense|get_dict_value:day|get_dict_value:'expense' }}
+                                        收入:{{ day_income_expense|get_dict_value:day|get_dict_value:'income' }} | 支出:{{ day_income_expense|get_dict_value:day|get_dict_value:'expense' }}
                                     </div>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     {% for r in current_month_records|get_dict_value:day %}
-                                    {% if r.category %}
-                                    <li class="list-group-item">
-                                        {% if r.sub_category %}
-                                        <div style="float: left;">{{ r.category }} - {{ r.sub_category }}</div>
+                                        {% if r.category %}
+                                        <li class="list-group-item">
+                                            {% if r.sub_category %}
+                                            <div style="float: left;">{{ r.category }} - {{ r.sub_category }}</div>
+                                            {% else %}
+                                            <div style="float: left;">{{ r.category }}</div>
+                                            {% endif %}
+                                            {% if r.category.category_type == 'income' %}
+                                            <div style="float: right; color: green;">{{ r.amount }}</div>
+                                            {% else %}
+                                            <div style="float: right; color: red;">{{ r.amount }}</div>
+                                            {% endif %}
+                                            <br>
+                                            {% if r.comment %}
+                                            <div style="float: left; font-size: 80%; color: gray;">{{ r.comment }}</div>
+                                            {% endif %}
+                                            <div style="float: right; font-size: 80%; color: gray;">{{ r.account }}</div>
+                                        </li>
                                         {% else %}
-                                        <div style="float: left;">{{ r.category }}</div>
+                                        <li class="list-group-item">
+                                            <div style="float: left;">{{ r.from_account }} -> {{ r.to_account }}</div>
+                                            <div style="float: right; color: blue;">{{ r.amount }}</div>
+                                            <br>
+                                            {% if r.comment %}
+                                            <div style="float: left; font-size: 80%; color: gray;">{{ r.comment }}</div>
+                                            {% endif %}
+                                            <div style="float: right; font-size: 80%; color: gray;">账户内转</div>
+                                        </li>
                                         {% endif %}
-                                        {% if r.category.category_type == 'income' %}
-                                        <div style="float: right; color: green;">{{ r.amount }}</div>
-                                        {% else %}
-                                        <div style="float: right; color: red;">{{ r.amount }}</div>
-                                        {% endif %}
-                                        <br>
-                                        {% if r.comment %}
-                                        <div style="float: left; font-size: 80%; color: gray;">{{ r.comment }}</div>
-                                        {% endif %}
-                                        <div style="float: right; font-size: 80%; color: gray;">{{ r.account }}</div>
-                                    </li>
-                                    {% else %}
-                                    <li class="list-group-item">
-                                        <div style="float: left;">{{ r.from_account }} -> {{ r.to_account }}</div>
-                                        <div style="float: right; color: blue;">{{ r.amount }}</div>
-                                        <br>
-                                        {% if r.comment %}
-                                        <div style="float: left; font-size: 80%; color: gray;">{{ r.comment }}</div>
-                                        {% endif %}
-                                        <div style="float: right; font-size: 80%; color: gray;">账户内转</div>
-                                    </li>
-                                    {% endif %}
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -289,8 +270,7 @@
                             <select class="custom-select" id="available-months">
                             </select>
                             <div class="input-group-append">
-                                <button id="show-charts" class="btn btn-outline-info my-2 my-sm-0"
-                                    type="submit">筛选</button>
+                                <button id="show-charts" class="btn btn-outline-info my-2 my-sm-0" type="submit">筛选</button>
                             </div>
                         </div>
                     </div>
@@ -326,7 +306,7 @@
     </div>
     {% endif %}
 </body>
-<script>$.ajaxSetup({ headers: { "X-CSRFToken": '{{ csrf_token }}' } });</script>
+<script>$.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});</script>
 <script>
     function getCurrentDateFormat() {
         var date = new Date();
@@ -348,7 +328,7 @@
 <script>
     $(function () {
         var current_month_surplus = $("#month-surplus").text();
-        $({ numberValue: current_month_surplus }).animate({ numberValue: parseFloat(current_month_surplus) }, {
+        $({numberValue: current_month_surplus}).animate({numberValue: parseFloat(current_month_surplus)}, {
             duration: 1000,
             easing: 'linear',
             step: function (now) {
@@ -356,7 +336,7 @@
             }
         });
         var current_month_income = $("#month-income").text();
-        $({ numberValue: current_month_income }).animate({ numberValue: parseFloat(current_month_income) }, {
+        $({numberValue: current_month_income}).animate({numberValue: parseFloat(current_month_income)}, {
             duration: 1000,
             easing: 'linear',
             step: function (now) {
@@ -364,7 +344,7 @@
             }
         });
         var current_month_expense = $("#month-expense").text();
-        $({ numberValue: current_month_expense }).animate({ numberValue: parseFloat(current_month_expense) }, {
+        $({numberValue: current_month_expense}).animate({numberValue: parseFloat(current_month_expense)}, {
             duration: 1000,
             easing: 'linear',
             step: function (now) {
@@ -377,30 +357,30 @@
         $("#ie-type-list").find(`option[value=${init_ie_type}]`).attr("selected", true);
         $.ajax({
             type: "POST",
-            data: { ie_type: init_ie_type },
+            data: {ie_type: init_ie_type},
             url: "{% url 'retrieve_category' %}",
             cache: false,
             dataType: "json",
             success: function (result) {
                 var options = "";
-                result["categories"].forEach(function (val, index, arr) {
+                result["categories"].forEach(function(val,index,arr) {
                     new_option = '<option value="' + val[0] + '">' + val[1] + '</option>';
                     options += new_option;
                 });
                 var category_list = document.getElementById("category-list");
                 category_list.innerHTML = options;
-                $("#category-list option").filter(function () { return $(this).text() == init_category_type; }).attr("selected", true);
+                $("#category-list option").filter(function(){return $(this).text()==init_category_type;}).attr("selected", true);
             }
         });
         $.ajax({
             type: "POST",
-            data: { category_type: init_category_type },
+            data: {category_type: init_category_type},
             url: "{% url 'retrieve_subcategory' %}",
             cache: false,
             dataType: "json",
             success: function (result) {
                 var options = '<option value="select value" selected="selected">选择子类</option>';
-                result["subcategories"].forEach(function (val, index, arr) {
+                result["subcategories"].forEach(function(val,index,arr) {
                     new_option = '<option value="' + val[0] + '">' + val[1] + '</option>';
                     options += new_option;
                 });
@@ -416,7 +396,7 @@
             dataType: "json",
             success: function (result) {
                 var options = '<option value="select value" selected="selected">选择年份</option>';
-                result["years"].forEach(function (val, index, arr) {
+                result["years"].forEach(function(val,index,arr) {
                     new_option = '<option value="' + val + '">' + val + '</option>';
                     options += new_option;
                 });
@@ -427,17 +407,17 @@
                 month_list.innerHTML = month_options;
             }
         });
-        $('#years-filter').change(function () {
+        $('#years-filter').change(function(){
             var current_selected_year = $(this).children('option:selected').text();
             $.ajax({
                 type: "POST",
-                data: { year: current_selected_year },
+                data: {year: current_selected_year},
                 url: "{% url 'retrieve_month_has_data' %}",
                 cache: false,
                 dataType: "json",
                 success: function (result) {
                     var options = '<option value="select value" selected="selected">选择月份</option>';
-                    result["months"].forEach(function (val, index, arr) {
+                    result["months"].forEach(function(val,index,arr) {
                         new_option = '<option value="' + val + '">' + val + '</option>';
                         options += new_option;
                     });
@@ -447,14 +427,14 @@
             });
         });
 
-        $('#show-custom-record').click(function () {
+        $('#show-custom-record').click(function(){
             var selected_year = $('#years-filter').children('option:selected').text();
             var selected_month = $('#months-filter').children('option:selected').text();
             var re = /^[0-9]+.?[0-9]*/;
-            if (re.test(selected_year) && re.test(selected_month)) {
+        　　 if (re.test(selected_year) && re.test(selected_month)) {
                 $.ajax({
                     type: "POST",
-                    data: { year: selected_year, month: selected_month },
+                    data: {year: selected_year, month: selected_month},
                     url: "{% url 'filter_record_by_date' %}",
                     cache: false,
                     dataType: "json",
@@ -468,9 +448,9 @@
                         }
                         for (key in result["records"]) {
                             var card_prefix = '<div class="card" style="margin: 0px 5px 10px 5px;">';
-                            var card_header = '<div class="card-header"><div style="float: left;">' + key + '</div></div>';
+                            var card_header = '<div class="card-header"><div style="float: left;">'+ key +'</div></div>';
                             var current_item = '';
-                            result["records"][key].forEach(function (val, index, arr) {
+                            result["records"][key].forEach(function(val,index,arr) {
                                 if (val["record_type"] === "income_expense") {
                                     var category_string = '';
                                     if (val['subcategory'] === 'no sub category') {
@@ -487,14 +467,14 @@
                                     }
                                     var comment_string = '<div style="float: left; font-size: 80%; color: gray;">' + val["comment"] + '</div>';
                                     var account_string = '<div style="float: right; font-size: 80%; color: gray;">' + val["account"] + '</div>';
-                                    current_item += '<li class="list-group-item"><div style="float: left;">' + category_string + '</div>' + amount_string + comment_string + account_string + '</li>';
+                                    current_item += '<li class="list-group-item"><div style="float: left;">'+category_string+'</div>'+amount_string+comment_string+account_string+'</li>';
                                 }
                                 else {
                                     var transfer_string = '<div style="float: left;">' + val["from_account"] + ' -> ' + val["to_account"] + '</div>';
                                     var amount_string = '<div style="float: right; color: blue;">' + val["amount"] + '</div><br>';
                                     var comment_string = '<div style="float: left; font-size: 80%; color: gray;">' + val["comment"] + '</div>';
                                     var account_string = '<div style="float: right; font-size: 80%; color: gray;">账户内转</div>';
-                                    current_item += '<li class="list-group-item">' + transfer_string + amount_string + comment_string + account_string + '</li>';
+                                    current_item += '<li class="list-group-item">' + transfer_string + amount_string + comment_string + account_string+'</li>';
                                 }
                             });
                             var list_group = '<ul class="list-group list-group-flush">' + current_item + '</ul>';
@@ -504,23 +484,23 @@
                         record_list.innerHTML = cards;
                     }
                 });
-            }
+        　　 }
             else {
-                alert("请选择年和月!");
-            }
+        　　　　 alert("请选择年和月!");
+        　　 }
         });
 
-        $('#ie-type-list').change(function () {
+        $('#ie-type-list').change(function(){
             var current_ie_type = $(this).children('option:selected').val();
             $.ajax({
                 type: "POST",
-                data: { ie_type: current_ie_type },
+                data: {ie_type: current_ie_type},
                 url: "{% url 'retrieve_category' %}",
                 cache: false,
                 dataType: "json",
                 success: function (result) {
                     var options = "";
-                    result["categories"].forEach(function (val, index, arr) {
+                    result["categories"].forEach(function(val,index,arr) {
                         if (index == 0) {
                             new_option = '<option value="' + val[0] + '" selected="selected">' + val[1] + '</option>';
                             options += new_option;
@@ -536,13 +516,13 @@
                     var current_category_type = $('#category-list').children('option:selected').text();
                     $.ajax({
                         type: "POST",
-                        data: { category_type: current_category_type },
+                        data: {category_type: current_category_type},
                         url: "{% url 'retrieve_subcategory' %}",
                         cache: false,
                         dataType: "json",
                         success: function (result) {
                             var options = '<option value="select value" selected="selected">选择子类</option>';
-                            result["subcategories"].forEach(function (val, index, arr) {
+                            result["subcategories"].forEach(function(val,index,arr) {
                                 new_option = '<option value="' + val[0] + '">' + val[1] + '</option>';
                                 options += new_option;
                             });
@@ -554,17 +534,17 @@
             });
         });
 
-        $('#category-list').change(function () {
+        $('#category-list').change(function(){
             var current_category_type = $(this).children('option:selected').text();
             $.ajax({
                 type: "POST",
-                data: { category_type: current_category_type },
+                data: {category_type: current_category_type},
                 url: "{% url 'retrieve_subcategory' %}",
                 cache: false,
                 dataType: "json",
                 success: function (result) {
                     var options = '<option value="select value" selected="selected">选择子类</option>';
-                    result["subcategories"].forEach(function (val, index, arr) {
+                    result["subcategories"].forEach(function(val,index,arr) {
                         new_option = '<option value="' + val[0] + '">' + val[1] + '</option>';
                         options += new_option;
                     });
@@ -574,7 +554,7 @@
             });
         });
 
-        $('#search-record').click(function () {
+        $('#search-record').click(function(){
             var search_keyword = $("#search-keyword").val();
             if (!search_keyword) {
                 alert("搜索词不能为空");
@@ -582,7 +562,7 @@
             else {
                 $.ajax({
                     type: "POST",
-                    data: { keyword: search_keyword },
+                    data: {keyword: search_keyword},
                     url: "{% url 'search_record' %}",
                     cache: false,
                     dataType: "json",
@@ -594,7 +574,7 @@
                         else {
                             var cards = '<h5>搜索无结果</h5>';
                         }
-                        result["records"].forEach(function (val, index, arr) {
+                        result["records"].forEach(function(val,index,arr) {
                             var card_prefix = '<div class="card" style="margin: 0px 5px 10px 5px;">';
                             var category_string = '';
                             if (val['subcategory'] === 'no sub category') {
@@ -611,8 +591,8 @@
                             }
                             var comment_string = '<div style="float: left; font-size: 80%; color: gray;">' + val["comment"] + '</div>';
                             var account_string = '<div style="float: right; font-size: 80%; color: gray;">' + val["account"] + '</div>';
-                            card_header = '<div class="card-header"><div style="float: left;">' + val['day'] + '</div></div>';
-                            list_group = '<ul class="list-group list-group-flush"><li class="list-group-item"><div style="float: left;">' + category_string + '</div>' + amount_string + comment_string + account_string + '</li></ul>';
+                            card_header = '<div class="card-header"><div style="float: left;">'+val['day']+'</div></div>';
+                            list_group = '<ul class="list-group list-group-flush"><li class="list-group-item"><div style="float: left;">'+category_string+'</div>'+amount_string+comment_string+account_string+'</li></ul>';
                             cards += card_prefix + card_header + list_group + '</div>';
                         });
                         var record_list = document.getElementById("record-list");
@@ -623,25 +603,25 @@
         });
 
         $("#time-occurrence").attr("value", getCurrentDateFormat());
-        $("#time-occurrence").datetimepicker({
-            format: 'Y-m-d H:i',
+        $("#time-occurrence").datetimepicker( {
+            format:'Y-m-d H:i',
         });
 
         $("#transfer-time-occurrence").attr("value", getCurrentDateFormat());
-        $("#transfer-time-occurrence").datetimepicker({
-            format: 'Y-m-d H:i',
+        $("#transfer-time-occurrence").datetimepicker( {
+            format:'Y-m-d H:i',
         });
 
     })
 </script>
 <script>
     $(function () {
-        $('#home-nav').click(function () {
+        $('#home-nav').click(function(){
             $("#top-container").attr("class", "container");
         });
 
-        $('#charts-nav').click(function () {
-            $("#top-container").attr("class", "container");
+        $('#charts-nav').click(function(){
+            $("#top-container").attr("class", "container-fluid");
 
             $.ajax({
                 type: "GET",
@@ -650,7 +630,7 @@
                 dataType: "json",
                 success: function (result) {
                     var options = '<option value="select value" selected="selected">选择年份</option>';
-                    result["years"].forEach(function (val, index, arr) {
+                    result["years"].forEach(function(val,index,arr) {
                         new_option = '<option value="' + val + '">' + val + '</option>';
                         options += new_option;
                     });
@@ -749,7 +729,7 @@
                         data: [],
                         color: ['#2E8B57', '#3CB371', '#20B2AA', '#32CD32', '#2E8B57'],
                         itemStyle: {
-                            normal: {
+                            normal:{
                                 label: {
                                     show: true,
                                     position: 'top',
@@ -768,7 +748,7 @@
                         data: [],
                         color: ['#FF7F50', '#A0522D', '#D2691E', '#FFA07A', '#FF8C00', '#FFDAB9', '#CD5C5C', '#DAA520'],
                         itemStyle: {
-                            normal: {
+                            normal:{
                                 label: {
                                     show: true,
                                     position: 'top',
@@ -869,7 +849,7 @@
                         data: [],
                         color: ['#2E8B57', '#3CB371', '#20B2AA', '#32CD32', '#2E8B57'],
                         itemStyle: {
-                            normal: {
+                            normal:{
                                 label: {
                                     show: true,
                                     position: 'top',
@@ -888,7 +868,7 @@
                         data: [],
                         color: ['#FF7F50', '#A0522D', '#D2691E', '#FFA07A', '#FF8C00', '#FFDAB9', '#CD5C5C', '#DAA520'],
                         itemStyle: {
-                            normal: {
+                            normal:{
                                 label: {
                                     show: true,
                                     position: 'top',
@@ -909,7 +889,7 @@
                 dataType: "json",
                 success: function (result) {
                     $("#month-total-income").text(result["month_total_income"]);
-                    $("#month-total-expense").text("-" + result["month_total_expense"]);
+                    $("#month-total-expense").text("-"+result["month_total_expense"]);
                     monthBarOption.xAxis.data = result["days"];
                     monthBarOption.series[0].data = result["days_expense"];
                     monthBarOption.series[1].data = result["days_income"];
@@ -928,7 +908,7 @@
                 dataType: "json",
                 success: function (result) {
                     $("#year-total-income").text(result["year_total_income"]);
-                    $("#year-total-expense").text("-" + result["year_total_expense"]);
+                    $("#year-total-expense").text("-"+result["year_total_expense"]);
                     yearBarOption.xAxis.data = result["months"];
                     yearBarOption.series[0].data = result["months_expense"];
                     yearBarOption.series[1].data = result["months_income"];
@@ -940,17 +920,17 @@
                 }
             });
 
-            $('#available-years').change(function () {
+            $('#available-years').change(function(){
                 var current_selected_year = $(this).children('option:selected').text();
                 $.ajax({
                     type: "POST",
-                    data: { year: current_selected_year },
+                    data: {year: current_selected_year},
                     url: "{% url 'retrieve_month_has_data' %}",
                     cache: false,
                     dataType: "json",
                     success: function (result) {
                         var options = '<option value="select value" selected="selected">选择月份</option>';
-                        result["months"].forEach(function (val, index, arr) {
+                        result["months"].forEach(function(val,index,arr) {
                             new_option = '<option value="' + val + '">' + val + '</option>';
                             options += new_option;
                         });
@@ -960,20 +940,20 @@
                 });
             });
 
-            $('#show-charts').click(function () {
+            $('#show-charts').click(function(){
                 var selected_year = $('#available-years').children('option:selected').text();
                 var selected_month = $('#available-months').children('option:selected').text();
                 var re = /^[0-9]+.?[0-9]*/;
-                if (re.test(selected_year) && re.test(selected_month)) {
+            　　 if (re.test(selected_year) && re.test(selected_month)) {
                     $.ajax({
                         type: "POST",
-                        data: { year: selected_year, month: selected_month },
+                        data: {year: selected_year, month: selected_month},
                         url: "{% url 'retrieve_current_month_income_expense' %}",
                         cache: false,
                         dataType: "json",
                         success: function (result) {
                             $("#month-total-income").text(result["month_total_income"]);
-                            $("#month-total-expense").text("-" + result["month_total_expense"]);
+                            $("#month-total-expense").text("-"+result["month_total_expense"]);
                             monthBarOption.xAxis.data = result["days"];
                             monthBarOption.series[0].data = result["days_expense"];
                             monthBarOption.series[1].data = result["days_income"];
@@ -987,13 +967,13 @@
 
                     $.ajax({
                         type: "POST",
-                        data: { year: selected_year },
+                        data: {year: selected_year},
                         url: "{% url 'retrieve_current_year_income_expense' %}",
                         cache: false,
                         dataType: "json",
                         success: function (result) {
                             $("#year-total-income").text(result["year_total_income"]);
-                            $("#year-total-expense").text("-" + result["year_total_expense"]);
+                            $("#year-total-expense").text("-"+result["year_total_expense"]);
                             yearBarOption.xAxis.data = result["months"];
                             yearBarOption.series[0].data = result["months_expense"];
                             yearBarOption.series[1].data = result["months_income"];
@@ -1004,15 +984,14 @@
                             yearPieChart.setOption(yearPieOption);
                         }
                     });
-                }
+            　　 }
                 else {
-                    alert("请选择年和月!");
-                }
+            　　　　 alert("请选择年和月!");
+            　　 }
             });
 
         });
 
     })
 </script>
-
 </html>
