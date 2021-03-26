@@ -61,7 +61,15 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav mr-auto">
+                    <div class="form-inline my-2 my-lg-0">
+                        <div name="search-elements" style="margin: 0px auto;">
+                            <input class="form-control mr-sm-2" type="search" id="search-keyword" placeholder="请输入内容">
+                            <button class="btn btn-info my-2 my-sm-0" id="search-record" type="submit"><i
+                                    class="fa fa-search" aria-hidden="true">搜索账单</i></button>
+                        </div>
+                    </div>
+                </ul>
                 <ul class="navbar-nav mt-2 mt-lg-0">
                     <li><a class="nav-link" href="/pc/dashboard"><i class="bi-list"></i> 记账</a></li>
                     {% if user.is_authenticated %}
@@ -118,15 +126,6 @@
                                 </li>
                                 {% endfor %}
                             </ul>
-                        </div>
-                        <div class="form-inline my-2 my-lg-0">
-                            <div name="search-elements" style="margin: 0px auto;">
-                                <input class="form-control mr-sm-2" type="search" id="search-keyword"
-                                    placeholder="请输入内容">
-                                <button class="btn btn-info my-2 my-sm-0" id="search-record" type="submit"><i
-                                        class="fa fa-search" aria-hidden="true">搜索账单</i></button>
-                                <a class="btn btn-info my-2 my-sm-0" href="/accounting">回到主页</a>
-                            </div>
                         </div>
                         <hr width="90%" />
                         <form action="{% url 'transfer_between_accounts' %}" method="post" class="transfer-record-form">
