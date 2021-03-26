@@ -18,6 +18,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django_filters",
+    'crispy_forms',
     'accounting',
     'import_export',
 ]
@@ -123,3 +125,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 django_heroku.settings(locals())
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

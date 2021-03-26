@@ -410,8 +410,11 @@ def transfer_between_accounts(request):
 def dashboard(request):
     if not request.user.is_authenticated:
         raise PermissionDenied
-    query_results = HistoryRecord.objects.all()
-    return render(request, "accounting/billList.html", {'query_results': query_results})
+    items = HistoryRecord.objects.all()
+    context = {
+        'items': items,
+    }
+    return render(request, "accounting/billList.html", context)
 
 def display_categoryList(request):
     if not request.user.is_authenticated:

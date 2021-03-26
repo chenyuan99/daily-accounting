@@ -7,3 +7,5 @@ django-heroku
 gunicorn
 PyMySQL
 django-import-export
+django-crispy-forms
+django-filter
