@@ -4,7 +4,7 @@ import json
 import django_heroku
 import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = "CHANGE_ME!!!! (P.S. the SECRET_KEY environment variable will be used, if set, instead)."
+SECRET_KEY = "9=kq$9byi(&1#^*m@xm_t6=2+@@ny@g+a%cg_fl*^a#--m)&4w"
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
@@ -12,7 +12,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'simpleui', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
