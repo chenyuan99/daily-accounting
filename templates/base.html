@@ -24,67 +24,91 @@
   <title>独馨记账</title>
   <style>
     body {
-  margin: 0;
-  font-family: "Lato", sans-serif;
-}
+      margin: 0;
+      font-family: "Lato", sans-serif;
+    }
 
-.sidebar {
-  margin: 0;
-  padding: 0;
-  width: 200px;
-  background-color: #e8ecf2;
-  position: fixed;
-  height: 100%;
-  overflow: auto;
-}
+    .sidebar {
+      margin: 0;
+      padding: 0;
+      width: 200px;
+      background-color: #e8ecf2;
+      position: fixed;
+      height: 100%;
+      overflow: auto;
+    }
 
-.sidebar a {
-  display: block;
-  color: black;
-  padding: 16px;
-  text-decoration: none;
-}
- 
-.sidebar a.active {
-  background-color: #dbe0e7;
-  color: #ef5742;
-}
+    .sidebar a {
+      display: block;
+      color: black;
+      padding: 16px;
+      text-decoration: none;
+    }
 
-.sidebar a:hover:not(.active) {
-  background-color: #dbe0e7;
-  color: #ef5742;
-}
+    .sidebar a.active {
+      background-color: #dbe0e7;
+      color: #ef5742;
+    }
 
-div.content {
-  margin-left: 200px;
-  padding: 1px 16px;
-  height: 1000px;
-}
+    .sidebar a:hover:not(.active) {
+      background-color: #dbe0e7;
+      color: #ef5742;
+    }
 
-@media screen and (max-width: 700px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
-  .sidebar a {float: left;}
-  div.content {margin-left: 0;}
-}
+    div.content {
+      margin-left: 200px;
+      padding: 1px 16px;
+      height: 1000px;
+    }
 
-@media screen and (max-width: 400px) {
-  .sidebar a {
-    text-align: center;
-    float: none;
-  }
-}
+    @media screen and (max-width: 700px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .sidebar a {
+        float: left;
+      }
+
+      div.content {
+        margin-left: 0;
+      }
+    }
+
+    @media screen and (max-width: 400px) {
+      .sidebar a {
+        text-align: center;
+        float: none;
+      }
+    }
   </style>
+  <script>
+    $(document).ready(function () {
+      $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+          $('#back-to-top').fadeIn();
+        } else {
+          $('#back-to-top').fadeOut();
+        }
+      });
+      // scroll body to 0px on click
+      $('#back-to-top').click(function () {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 400);
+        return false;
+      });
+    });
+  </script>
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light border-bottom" style="background-color: white;">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/"><img alt="" class="vt-logo-image" src="https://i.imgur.com/za9Otgl.png?1" width = 32
-        focusable="false" aria-hidden="true"></a>
+      <a class="navbar-brand" href="/"><img alt="" class="vt-logo-image" src="https://i.imgur.com/za9Otgl.png?1"
+          width=32 focusable="false" aria-hidden="true"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -106,6 +130,8 @@ div.content {
   </nav>
 
   {% block content %}{% endblock %}
+  <a id="back-to-top" href="#" class="btn btn-lg back-to-top" role="button"><i class="bi bi-arrow-up-circle"></i></a>
+  {% include 'footer.html' %}
   {% block scripts %}{% endblock %}
 </body>
 

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 from django.views.generic.base import TemplateView # new
 urlpatterns = [
     # path('', include('accounting.urls')),

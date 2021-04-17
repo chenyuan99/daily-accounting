@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.core.paginator import Paginator
 from .models import *
 from .forms import *
 import datetime, calendar
@@ -433,3 +434,18 @@ def display_accountList(request):
         'items': items,
     }
     return render(request, "accounting/accountList.html",context)
+
+def page_demo(request):
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    articles=HistoryRecord.objects.all()
+    paginator_obj=Paginator(articles,8) #每页5条
+    # print(paginator_obj.page_range)
+
+    request_page_num=request.GET.get('page',1)
+    # print(request_page_num)
+    page_obj=paginator_obj.page(request_page_num)
+
+    total_page_number=paginator_obj.num_pages
+    context = {'page_obj':page_obj,'paginator_obj':paginator_obj}
+    return render(request,'accounting/page_demo.html',context)

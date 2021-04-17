@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.conf.urls import url
 from . import views
 
 urlpatterns = [
@@ -16,5 +17,6 @@ urlpatterns = [
     path('pc/dashboard', views.dashboard, name='pc/dashboard'),
     path('pc/dashboard/categoryList', views.display_categoryList,name='pc/dashboard/categoryList'),
     path('pc/dashboard/accountList', views.display_accountList,name='pc/dashboard/accountList'),
-    path('pc/dashboard/billList', views.dashboard,name='pc/dashboard/accountList'),
+    path('pc/dashboard/billList', views.page_demo,name='pc/dashboard/accountList'),
+    url(r'^page_demo/', views.page_demo),
 ]
