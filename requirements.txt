@@ -7,3 +7,5 @@ gunicorn
 django-import-export
 django-crispy-forms
 django-filter
+pytz==2020.5
+sqlparse==0.4.1
