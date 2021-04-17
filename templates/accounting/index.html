@@ -48,6 +48,15 @@
             overflow: auto;
             visibility: visible;
         }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: None;
+            color: #e87722;
+            /* background-color: #e87722; */
+        }
     </style>
 </head>
 
@@ -56,7 +65,7 @@
         <div class="container">
             <a class="navbar-brand" href="/"><img alt="" class="vt-logo-image" src="https://i.imgur.com/za9Otgl.png?1"
                     width=32 focusable="false" aria-hidden="true"></a>
-                    <!-- 独馨记账 -->
+            <!-- 独馨记账 -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -352,6 +361,8 @@
         <h3>Please login to view data or record expense</h3>
     </div>
     {% endif %}
+
+    <a id="back-to-top" href="#" class="btn btn-lg back-to-top" role="button"><i class="bi bi-arrow-up-circle"></i></a>
 </body>
 <script>$.ajaxSetup({ headers: { "X-CSRFToken": '{{ csrf_token }}' } });</script>
 <script>
@@ -1040,6 +1051,24 @@
         });
 
     })
+</script>
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+                $('#back-to-top').fadeIn();
+            } else {
+                $('#back-to-top').fadeOut();
+            }
+        });
+        // scroll body to 0px on click
+        $('#back-to-top').click(function () {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
+    });
 </script>
 
 </html>
