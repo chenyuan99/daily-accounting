@@ -14,9 +14,9 @@ urlpatterns = [
     path('search_record/', views.search_record, name='search_record'),
     path('filter_record_by_date/', views.filter_record_by_date, name='filter_record_by_date'),
     path('transfer-between-accounts/', views.transfer_between_accounts, name='transfer_between_accounts'),
-    path('pc/dashboard', views.dashboard, name='pc/dashboard'),
+    path('pc/dashboard', views.page_demo, name='pc/dashboard'),
     path('pc/dashboard/categoryList', views.display_categoryList,name='pc/dashboard/categoryList'),
     path('pc/dashboard/accountList', views.display_accountList,name='pc/dashboard/accountList'),
-    path('pc/dashboard/billList', views.page_demo,name='pc/dashboard/accountList'),
+    path('pc/dashboard/billList', views.page_demo,name='pc/dashboard/billList'),
     url(r'^page_demo/', views.page_demo),
 ]
