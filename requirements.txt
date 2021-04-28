@@ -10,3 +10,4 @@ django-filter
 pytz==2020.5
 sqlparse==0.4.1
 pymysql
+django-redis
