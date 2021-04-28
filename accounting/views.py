@@ -8,6 +8,7 @@ from .models import *
 from .forms import *
 import datetime, calendar
 import decimal
+from .filters import *
 
 
 def index(request):
@@ -439,13 +440,15 @@ def page_demo(request):
     if not request.user.is_authenticated:
         raise PermissionDenied
     articles=HistoryRecord.objects.all()
-    paginator_obj=Paginator(articles,8) #每页5条
-    # print(paginator_obj.page_range)
-
+    myFilter = historyRecordFilter(request.GET, queryset=articles)
+    items = myFilter.qs
+    paginator_obj=Paginator(items,8) #每页5条
     request_page_num=request.GET.get('page',1)
-    # print(request_page_num)
     page_obj=paginator_obj.page(request_page_num)
-
     total_page_number=paginator_obj.num_pages
-    context = {'page_obj':page_obj,'paginator_obj':paginator_obj}
+    context = {
+        'page_obj':page_obj,
+        'paginator_obj':paginator_obj,
+        'myFilter': myFilter
+        }
     return render(request,'accounting/page_demo.html',context)

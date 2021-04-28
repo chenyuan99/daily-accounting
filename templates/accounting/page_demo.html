@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+{% load crispy_forms_tags %}
+
 <body>
     <div class="sidebar">
         <ul class="nav flex-column">
@@ -23,7 +25,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/admin/accounting/historyrecord/import/">
                     <span data-feather="bar-chart-2"></span>
                     导入账单
                 </a>
@@ -48,44 +50,15 @@
             <div id="expanse" class="container-fluid tab-pane active">
                 <br>
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
-                    <table>
-                        <tr>
-                            <td>
-                                <span>时间从</span>
-                            </td>
-                            <td><input type="date" name="bday" max="300
-                        0-12-31" min="1000-01-01" class="form-control">
-                            </td>
-                            <td><span>到</span></td>
-                            <td>
-                                <input type="date" name="bday" max="3000-12-31" min="1000-01-01" class="form-control">
-                            </td>
-                            <td><span>分类：</span></td>
-                            <td>
-                                <select class="custom-select" name="sort" size=1>
-                                    <option>外卖</option>
-                                    <option>水电网</option>
-                                </select>
-                            </td>
-                            <td>
-                                <span>账户：</span>
-                            </td>
-                            <td>
-                                <select class="custom-select" name="sort" size=1>
-                                    <option>富国</option>
-                                    <option>中行纽约</option>
-                                </select>
-                            </td>
-                            <td>
-                                <span>来源：</span>
-                            </td>
-                            <td>
-                                <select class="custom-select" name="sort" size=1>
-                                    <option>手动记一笔</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
+                    <form class="form-inline" method="get">
+                        {% for field in myFilter.form %}
+                        <p>&nbsp;</p>
+                        {{ field|as_crispy_field }}
+                        <p>&nbsp;</p>
+                        {% endfor %}
+                        <button class="btn btn-primary" type="submit">Search</button>
+                        </table>
+                    </form>
                 </div>
                 <table class="table table-hover">
                     <thead>
@@ -94,7 +67,6 @@
                             <th>金额</th>
                             <th>账户</th>
                             <th>时间</th>
-                            <th>来源</th>
                             <th>备注</th>
                         </tr>
                     </thead>
@@ -106,15 +78,11 @@
                             <td>{{ item.amount }}</td>
                             <td>{{ item.account }}</td>
                             <td>{{ item.updated_date}}</td>
-                            <td>手动记一笔</td>
                             <td>{{ item.comment }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-
-
-
             </div>
             <div id="income" class="container-fluid tab-pane"><br>
                 income
@@ -160,13 +128,13 @@
             </div>
         </div>
         <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            {% for page_num in paginator_obj.page_range %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-            </li>
-            {% endfor %}
-        </ul>
+            <ul class="pagination">
+                {% for page_num in paginator_obj.page_range %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                </li>
+                {% endfor %}
+            </ul>
         </nav>
     </main>
 
