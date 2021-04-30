@@ -128,16 +128,15 @@ django_heroku.settings(locals())
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         # "LOCATION": os.environ.get('REDIS_URL'),
-#         "LOCATION":"redis://:pbff87f94284b9aeb4aaf89b31a4317023ea624d1909945c5273d2ddbe955d11e@ec2-54-164-74-91.compute-1.amazonaws.com:12820",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         }
-#     }
-# }
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.environ.get('REDIS_URL'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 
-# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-# SESSION_CACHE_ALIAS = "default"
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
