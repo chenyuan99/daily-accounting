@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import *
 from import_export.admin import ImportExportModelAdmin
+
 @admin.register(Currency)
 class CurrencyAdmin(ImportExportModelAdmin):
     model = Currency
@@ -17,12 +18,13 @@ class CategoryAdmin(ImportExportModelAdmin):
 class SubCategoryAdmin(ImportExportModelAdmin):
     model = SubCategory
 
-@admin.register(HistoryRecord)
+# @admin.register(HistoryRecord)
 class HistoryRecordAdmin(ImportExportModelAdmin):
     model = HistoryRecord
+    list_display = ('id','amount')
 
 # admin.site.register(Currency)
 # admin.site.register(Account)
 # admin.site.register(Category)
 # admin.site.register(SubCategory)
-# admin.site.register(HistoryRecord)
+admin.site.register(HistoryRecord, HistoryRecordAdmin)
