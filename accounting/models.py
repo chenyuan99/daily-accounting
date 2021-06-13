@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 
 class Currency(models.Model):
@@ -80,6 +81,10 @@ class TransferRecord(models.Model):
     comment = models.CharField(max_length=500, null=True, blank=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
+    # author = models.ForeignKey(
+    #     settings.AUTH_USER_MODEL,
+    #     on_delete=models.CASCADE,
+    # )
 
     class Meta:
         ordering = ['-time_of_occurrence']

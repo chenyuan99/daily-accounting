@@ -19,4 +19,5 @@ urlpatterns = [
     path('pc/dashboard/accountList', views.display_accountList,name='pc/dashboard/accountList'),
     path('pc/dashboard/billList', views.page_demo,name='pc/dashboard/billList'),
     url(r'^page_demo/', views.page_demo),
+    path("register/", views.register, name="register"),
 ]

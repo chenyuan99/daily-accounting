@@ -722,15 +722,19 @@
                 },
                 legend: {
                     data: ['支出', '收入'],
-                    x: 'right',
-                    y: 'top'
+                    x: 'center',
+                    y: 'bottom'
                 },
                 tooltip: {},
                 xAxis: {
                     data: [],
                     axisLabel: {
                         //interval: 3,
-                        rotate: 30
+                        // rotate: 30,
+                        // label内容是日期，需要格式化     
+                        formatter: function (value) {
+                            return echarts.format.formatTime("d", new Date(value));
+                        },
                     },
 
                     splitLine: {
@@ -859,8 +863,8 @@
                 },
                 legend: {
                     data: ['支出', '收入'],
-                    x: 'right',
-                    y: 'top'
+                    x: 'center',
+                    y: 'bottom'
                 },
                 tooltip: {},
                 xAxis: {
