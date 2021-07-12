@@ -748,34 +748,34 @@
                             return echarts.format.formatTime("d", new Date(value));
                         },
                     },
-
-                    splitLine: {
-                        show: true
-                    }
+                    boundaryGap: false,
+                    // splitLine: {
+                    //     show: true
+                    // }
                 },
                 yAxis: {
                 },
                 series: [{
                     name: '支出',
-                    type: 'bar',
+                    type: 'line',
                     color: '#FF4500',
                     data: [],
-                    animationDelay: function (idx) {
-                        return idx * 10;
-                    }
+                    // animationDelay: function (idx) {
+                    //     return idx * 10;
+                    // }
                 }, {
                     name: '收入',
-                    type: 'bar',
+                    type: 'line',
                     color: '#3CB371',
                     data: [],
-                    animationDelay: function (idx) {
-                        return idx * 10 + 100;
-                    }
+                    // animationDelay: function (idx) {
+                    //     return idx * 10 + 100;
+                    // }
                 }],
-                animationEasing: 'elasticOut',
-                animationDelayUpdate: function (idx) {
-                    return idx * 5;
-                }
+                // animationEasing: 'elasticOut',
+                // animationDelayUpdate: function (idx) {
+                //     return idx * 5;
+                // }
             };
             monthBarChart.setOption(monthBarOption);
 
@@ -885,34 +885,34 @@
                         //interval: 3,
                         //rotate: 30
                     },
-
-                    splitLine: {
-                        show: true
-                    }
+                    boundaryGap: false,
+                    // splitLine: {
+                    //     show: true
+                    // }
                 },
                 yAxis: {
                 },
                 series: [{
                     name: '支出',
-                    type: 'bar',
+                    type: 'line',
                     color: '#FF4500',
                     data: [],
-                    animationDelay: function (idx) {
-                        return idx * 10;
-                    }
+                    // animationDelay: function (idx) {
+                    //     return idx * 10;
+                    // }
                 }, {
                     name: '收入',
-                    type: 'bar',
+                    type: 'line',
                     color: '#3CB371',
                     data: [],
-                    animationDelay: function (idx) {
-                        return idx * 10 + 100;
-                    }
+                    // animationDelay: function (idx) {
+                    //     return idx * 10 + 100;
+                    // }
                 }],
-                animationEasing: 'elasticOut',
-                animationDelayUpdate: function (idx) {
-                    return idx * 5;
-                }
+                // animationEasing: 'elasticOut',
+                // animationDelayUpdate: function (idx) {
+                //     return idx * 5;
+                // }
             };
             yearBarChart.setOption(yearBarOption);
 
