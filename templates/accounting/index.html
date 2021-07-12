@@ -86,15 +86,27 @@
                     <div class="form-inline my-2 my-lg-0">
                         <div name="search-elements" style="margin: 0px auto;">
                             <input class="form-control mr-sm-2" type="search" id="search-keyword" placeholder="请输入内容">
-                            <button class="btn btn-info my-2 my-sm-0" id="search-record" type="submit"><i
+                            <button class="btn btn-light my-2 my-sm-0" id="search-record" type="submit"><i
                                     class="fa fa-search" aria-hidden="true">搜索账单</i></button>
                         </div>
                     </div>
                 </ul>
-                <ul class="navbar-nav mt-2 mt-lg-0">
-                    <li><a class="nav-link" href="/pc/dashboard"><i class="bi-list"></i> 记账</a></li>
+                <ul class="navbar-nav mt-3 mt-lg-0">
+                    <!-- <li><a class="nav-link" href="/pc/dashboard"><i class="bi-list"></i> 记账</a></li> -->
                     {% if user.is_authenticated %}
-                    <li><a class="nav-link" href="{% url 'logout' %}"><i class="bi-box-arrow-down"></i>登出</a></li>
+                    <!-- <li><a class="nav-link"><a class="nav-link" href="/"><i class="bi-list"></i>{{user.username|title}}</a></li> -->
+                    <!-- <li><a class="nav-link" href="{% url 'logout' %}"><i class="bi-box-arrow-down"></i>登出</a></li> -->
+                    <div class="dropdown show">
+                        <a class="btn btn-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{user.username|title}}</a>
+                        </a>
+                      
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <a class="dropdown-item" href="{% url 'logout' %}">登出</a></li>
+                          <a class="dropdown-item" href="/pc/dashboard"> 记账</a>
+                          <a class="dropdown-item" href="#">账户</a>
+                        </div>
+                      </div>
                     {% else %}
                     <li><a class="nav-link" href="{% url 'login' %}"><i class="bi-person-circle"></i>登录</a></li>
                     {% endif %}
@@ -104,7 +116,7 @@
     </nav>
     {% if user.is_authenticated %}
     <div class="container" id="top-container">
-        <ul class="nav nav-tabs justify-content-center" role="tablist">
+        <ul class="nav nav-pills justify-content-center" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#home" id="home-nav">记账</a>
             </li>
@@ -177,7 +189,7 @@
                                         class="form-control">
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <button type="submit" class="btn btn-info btn-block">转移到账户</button>
+                                    <button type="submit" class="btn btn-light btn-block">转移到账户</button>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <select class="custom-select" id="to-account-list" name="to_account">
@@ -199,7 +211,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <button id="show-custom-record" class="btn btn-info btn-block"
+                                <button id="show-custom-record" class="btn btn-light btn-block"
                                     type="submit">按日期筛选</button>
                             </div>
                         </div>
@@ -257,7 +269,7 @@
                                         class="form-control">
                                 </div>
                                 <div class="col-md-8 mb-3">
-                                    <button type="submit" class="btn btn-info btn-block">记录账单</button>
+                                    <button type="submit" class="btn btn-light btn-block">记录账单</button>
                                 </div>
                             </div>
                         </form>

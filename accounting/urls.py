@@ -20,4 +20,9 @@ urlpatterns = [
     path('pc/dashboard/billList', views.page_demo,name='pc/dashboard/billList'),
     url(r'^page_demo/', views.page_demo),
     path("register/", views.register, name="register"),
+    # logitistics
+    path("legacy", views.legacy, name="legacy"),
+    path("about", views.about, name="about"),
+    path("faq", views.faq, name="faq"),
+    path("privacy-policy", views.privacy, name="privacy-policy"),
 ]

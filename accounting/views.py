@@ -522,3 +522,22 @@ def register(request):
     return render(request=request,
                   template_name="registration/register.html",
                   context={"form": form})
+
+def legacy(request):
+    if not request.user.is_authenticated:
+        raise PermissionDenied
+    items = HistoryRecord.objects.all()
+    context = {
+        'items': items,
+    }
+    return render(request, "main/legacy.html",context)
+
+def about(request):
+    return render(request, "main/about.html")
+
+def faq(request):
+    return render(request, "main/faq.html")
+
+
+def privacy(request):
+    return render(request, "main/privacy-policy.html")
