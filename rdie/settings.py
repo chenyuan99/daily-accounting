@@ -7,6 +7,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "9=kq$9byi(&1#^*m@xm_t6=2+@@ny@g+a%cg_fl*^a#--m)&4w"
 DEBUG = True
 ALLOWED_HOSTS = ['*']
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 
 # Application definition
@@ -109,3 +112,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 django_heroku.settings(locals())
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# adding config
+cloudinary.config(
+  cloud_name = "hl7a3okqn",
+  api_key = "611729113638181",
+  api_secret = "VdRJwqMXOhhUltwYAyG6AKwTmsU"
+)

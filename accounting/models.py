@@ -1,6 +1,13 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from cloudinary.models import CloudinaryField
+
+class photos(models.Model):
+    # title field
+    title = models.CharField(max_length=100)
+    #image field
+    image = CloudinaryField('image')
 
 
 class Currency(models.Model):

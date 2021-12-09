@@ -1,6 +1,9 @@
 from django.contrib import admin
 from .models import *
 from import_export.admin import ImportExportModelAdmin
+from django.contrib import admin
+
+admin.site.register(photos)
 
 @admin.register(Currency)
 class CurrencyAdmin(ImportExportModelAdmin):

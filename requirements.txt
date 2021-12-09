@@ -12,3 +12,4 @@ sqlparse==0.4.1
 pymysql
 django-redis
 markdown
+cloudinary
