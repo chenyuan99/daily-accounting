@@ -102,13 +102,13 @@
                         </a>
                       
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                          <a class="dropdown-item" href="{% url 'logout' %}">登出</a></li>
+                          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                           <a class="dropdown-item" href="/pc/dashboard"> 记账</a>
-                          <a class="dropdown-item" href="#">账户</a>
+                          <a class="dropdown-item" href="#">Account</a>
                         </div>
                       </div>
                     {% else %}
-                    <li><a class="nav-link" href="{% url 'login' %}"><i class="bi-person-circle"></i>登录</a></li>
+                    <li><a class="nav-link" href="{% url 'login' %}"><i class="bi-person-circle"></i>Log in</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -118,10 +118,10 @@
     <div class="container" id="top-container">
         <ul class="nav nav-pills justify-content-center" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#home" id="home-nav">记账</a>
+                <a class="nav-link active" data-toggle="tab" href="#home" id="home-nav">Overview</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#charts" id="charts-nav">图表</a>
+                <a class="nav-link" data-toggle="tab" href="#charts" id="charts-nav">Graph</a>
             </li>
         </ul>
 
@@ -137,11 +137,11 @@
                         <div class="row">
                             <div class="col" align="center">
                                 <span>当月收入</span>
-                                <h6 id="month-income">{{ current_month_income }}(元)</h6>
+                                <h6 id="month-income">{{ current_month_income }}($)</h6>
                             </div>
                             <div class="col" align="center">
                                 <span>当月支出</span>
-                                <h6 id="month-expense">{{ current_month_expense }}(元)</h6>
+                                <h6 id="month-expense">{{ current_month_expense }}($)</h6>
                             </div>
                         </div>
                         <hr width="90%" class="main-separator" />
@@ -212,7 +212,7 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <button id="show-custom-record" class="btn btn-light btn-block"
-                                    type="submit">按日期筛选</button>
+                                    type="submit">Filter By Date</button>
                             </div>
                         </div>
                         <hr width="90%" class="main-separator" />
@@ -283,8 +283,8 @@
                                     <div style="float: left;">{{ day }}</div>
                                     {% load filter_dict %}
                                     <div style="float: right;">
-                                        收入:{{ day_income_expense|get_dict_value:day|get_dict_value:'income' }} |
-                                        支出:{{day_income_expense|get_dict_value:day|get_dict_value:'expense' }}
+                                        Income:{{ day_income_expense|get_dict_value:day|get_dict_value:'income' }} |
+                                        Expenses:{{day_income_expense|get_dict_value:day|get_dict_value:'expense' }}
                                     </div>
                                 </div>
                                 <ul class="list-group list-group-flush">
