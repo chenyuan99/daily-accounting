@@ -2,12 +2,12 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from cloudinary.models import CloudinaryField
+from django.contrib.auth.models import User, Group
 
-class photos(models.Model):
-    # title field
-    title = models.CharField(max_length=100)
-    #image field
-    image = CloudinaryField('image')
+
+class ImageModel(models.Model):
+    img = CloudinaryField('image', null=True)
+    id = models.CharField(max_length=16, primary_key=True)
 
 
 class Currency(models.Model):
@@ -28,6 +28,7 @@ class Account(models.Model):
     icon = models.CharField(max_length=100, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return self.name
@@ -74,13 +75,15 @@ class HistoryRecord(models.Model):
     comment = models.CharField(max_length=500, null=True, blank=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 
     class Meta:
         ordering = ['-time_of_occurrence']
 
 
 class TransferRecord(models.Model):
-    from_account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, default=1, related_name='from_account')
+    from_account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, default=1,
+                                     related_name='from_account')
     to_account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, default=2, related_name='to_account')
     time_of_occurrence = models.DateTimeField(default=timezone.now)
     currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True, default=1)
@@ -88,10 +91,7 @@ class TransferRecord(models.Model):
     comment = models.CharField(max_length=500, null=True, blank=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
-    # author = models.ForeignKey(
-    #     settings.AUTH_USER_MODEL,
-    #     on_delete=models.CASCADE,
-    # )
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ['-time_of_occurrence']

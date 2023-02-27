@@ -5,11 +5,12 @@ uWSGI==2.0.19.1
 django-heroku
 gunicorn
 django-import-export
-django-crispy-forms
-django-filter
+django-crispy-forms~=1.14.0
+django-filter~=21.1
 pytz==2020.5
 sqlparse==0.4.1
-pymysql
+pymysql~=1.0.2
 django-redis
 markdown
-cloudinary
+cloudinary~=1.32.0
+djangorestframework

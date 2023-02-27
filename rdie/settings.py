@@ -3,6 +3,7 @@ import os
 import json
 import django_heroku
 import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "9=kq$9byi(&1#^*m@xm_t6=2+@@ny@g+a%cg_fl*^a#--m)&4w"
 DEBUG = True
@@ -10,7 +11,6 @@ ALLOWED_HOSTS = ['*']
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-
 
 # Application definition
 
@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "django_filters",
     'crispy_forms',
+    'rest_framework',
     'accounting',
     'import_export',
 ]
@@ -57,14 +58,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rdie.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dcor75c08ep5v',
-        'USER': 'shvavxjzucmbod',
-        'PASSWORD': '1bed704e7a1ba22d18a2d1ca3b3965d9d8b59aa38219ed2115609b40a46a8e6a',
-        'HOST': 'ec2-34-192-106-123.compute-1.amazonaws.com',
+        'NAME': 'ds6mjrug7pgs7',
+        'USER': 'kogbqcsiurauii',
+        'PASSWORD': 'f756d38c827fa266c85568ddc3063c6c331b9423d72606ab1c6852d19b286adb',
+        'HOST': 'ec2-44-196-174-238.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -86,7 +86,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -115,7 +114,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # adding config
 cloudinary.config(
-  cloud_name = "hl7a3okqn",
-  api_key = "611729113638181",
-  api_secret = "VdRJwqMXOhhUltwYAyG6AKwTmsU"
+    cloud_name="hl7a3okqn",
+    api_key="611729113638181",
+    api_secret="VdRJwqMXOhhUltwYAyG6AKwTmsU"
 )

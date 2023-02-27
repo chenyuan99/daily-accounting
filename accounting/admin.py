@@ -3,7 +3,7 @@ from .models import *
 from import_export.admin import ImportExportModelAdmin
 from django.contrib import admin
 
-admin.site.register(photos)
+admin.site.register(ImageModel)
 
 @admin.register(Currency)
 class CurrencyAdmin(ImportExportModelAdmin):

@@ -1,14 +1,71 @@
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.core.paginator import Paginator
+from openpyxl.styles.builtins import currency
+from rest_framework import permissions, viewsets
+
+from .serializers import UserSerializer, GroupSerializer, TransferRecordSerializer, PhotoSerializer, AccountSerializer, \
+    CurrencySerializer
 from .models import *
 from .forms import *
 import datetime, calendar
 import decimal
 from .filters import *
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class TransferRecordViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = TransferRecord.objects.all()
+    serializer_class = TransferRecordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class PhotoViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = ImageModel.objects.all()
+    serializer_class = PhotoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CurrencyViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Currency.objects.all()
+    serializer_class = CurrencySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class AccountViewSet(viewsets.ModelViewSet):
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 def index(request):
@@ -18,8 +75,12 @@ def index(request):
     all_accounts = Account.objects.all()
     currencies = Currency.objects.all()
     ie_types = Category.CATEGORY_TYPES
-    history_records = HistoryRecord.objects.filter(time_of_occurrence__year=today.year, time_of_occurrence__month=today.month).order_by("-time_of_occurrence")
-    transfer_records = TransferRecord.objects.filter(time_of_occurrence__year=today.year, time_of_occurrence__month=today.month).order_by("-time_of_occurrence")
+    history_records = HistoryRecord.objects.filter(time_of_occurrence__year=today.year,
+                                                   time_of_occurrence__month=today.month).order_by(
+        "-time_of_occurrence")
+    transfer_records = TransferRecord.objects.filter(time_of_occurrence__year=today.year,
+                                                     time_of_occurrence__month=today.month).order_by(
+        "-time_of_occurrence")
     income = 0
     expense = 0
     day_has_record = []
@@ -66,7 +127,7 @@ def index(request):
         'surplus': income + expense,
         'current_month_records': current_month_records,
         'day_income_expense': day_income_expense
-               }
+    }
     return render(request, 'accounting/index.html', context)
 
 
@@ -173,7 +234,7 @@ def retrieve_current_month_income_expense(request):
             year = today.year
             month = today.month
         month_has_days = calendar.monthrange(year, month)[1]
-        days = [datetime.date(year, month, day).strftime("%Y-%m-%d") for day in range(1, month_has_days+1)]
+        days = [datetime.date(year, month, day).strftime("%Y-%m-%d") for day in range(1, month_has_days + 1)]
         days_income = []
         days_expense = []
         category_names = []
@@ -181,7 +242,9 @@ def retrieve_current_month_income_expense(request):
         month_category_expense = {}
         month_total_income = 0
         month_total_expense = 0
-        month_history_records = HistoryRecord.objects.filter(time_of_occurrence__year=year, time_of_occurrence__month=month).order_by("time_of_occurrence")
+        month_history_records = HistoryRecord.objects.filter(time_of_occurrence__year=year,
+                                                             time_of_occurrence__month=month).order_by(
+            "time_of_occurrence")
         for day in days:
             day_history_records = month_history_records.filter(time_of_occurrence__day=int(day.split("-")[-1]))
             day_income = 0
@@ -234,7 +297,8 @@ def retrieve_current_year_income_expense(request):
         year_category_expense = {}
         year_total_income = 0
         year_total_expense = 0
-        year_history_records = HistoryRecord.objects.filter(time_of_occurrence__year=year).order_by("time_of_occurrence")
+        year_history_records = HistoryRecord.objects.filter(time_of_occurrence__year=year).order_by(
+            "time_of_occurrence")
         for month in months:
             month_history_records = year_history_records.filter(time_of_occurrence__month=month)
             month_income = 0
@@ -275,7 +339,7 @@ def retrieve_year_has_data(request):
     if request.user.is_authenticated:
         hr_first = HistoryRecord.objects.order_by("time_of_occurrence").first()
         hr_last = HistoryRecord.objects.order_by("time_of_occurrence").last()
-        year_list = [y for y in range(hr_last.time_of_occurrence.year, hr_first.time_of_occurrence.year-1, -1)]
+        year_list = [y for y in range(hr_last.time_of_occurrence.year, hr_first.time_of_occurrence.year - 1, -1)]
         return JsonResponse({"years": year_list})
     else:
         return JsonResponse({"error": "unauthenticated"})
@@ -287,7 +351,7 @@ def retrieve_month_has_data(request):
         hr = HistoryRecord.objects.filter(time_of_occurrence__year=year).order_by("time_of_occurrence")
         hr_first = hr.first()
         hr_last = hr.last()
-        month_list = [m for m in range(hr_last.time_of_occurrence.month, hr_first.time_of_occurrence.month-1, -1)]
+        month_list = [m for m in range(hr_last.time_of_occurrence.month, hr_first.time_of_occurrence.month - 1, -1)]
         return JsonResponse({"months": month_list})
     else:
         return JsonResponse({"error": "unauthenticated"})
@@ -298,7 +362,9 @@ def search_record(request):
         keyword = request.POST.get('keyword')
         categories = Category.objects.filter(name__icontains=keyword)
         subcategories = SubCategory.objects.filter(name__icontains=keyword)
-        hrs = HistoryRecord.objects.filter(Q(category__in=categories) | Q(sub_category__in=subcategories) | Q(comment__icontains=keyword) | Q(amount__icontains=keyword))
+        hrs = HistoryRecord.objects.filter(
+            Q(category__in=categories) | Q(sub_category__in=subcategories) | Q(comment__icontains=keyword) | Q(
+                amount__icontains=keyword))
         records = []
         for hr in hrs:
             day_occur = hr.time_of_occurrence.strftime("%Y-%m-%d %A")
@@ -328,8 +394,12 @@ def filter_record_by_date(request):
     if request.user.is_authenticated:
         post_year = request.POST.get('year')
         post_month = request.POST.get('month')
-        history_records = HistoryRecord.objects.filter(time_of_occurrence__year=post_year, time_of_occurrence__month=post_month).order_by("-time_of_occurrence")
-        transfer_records = TransferRecord.objects.filter(time_of_occurrence__year=post_year, time_of_occurrence__month=post_month).order_by("-time_of_occurrence")
+        history_records = HistoryRecord.objects.filter(time_of_occurrence__year=post_year,
+                                                       time_of_occurrence__month=post_month).order_by(
+            "-time_of_occurrence")
+        transfer_records = TransferRecord.objects.filter(time_of_occurrence__year=post_year,
+                                                         time_of_occurrence__month=post_month).order_by(
+            "-time_of_occurrence")
         day_has_record = []
         custom_month_records = {}
         for hr in history_records:
@@ -409,6 +479,7 @@ def transfer_between_accounts(request):
     else:
         return JsonResponse({"error": "unauthenticated"})
 
+
 def dashboard(request):
     if not request.user.is_authenticated:
         raise PermissionDenied
@@ -418,6 +489,7 @@ def dashboard(request):
     }
     return render(request, "accounting/billList.html", context)
 
+
 def display_categoryList(request):
     if not request.user.is_authenticated:
         raise PermissionDenied
@@ -425,8 +497,12 @@ def display_categoryList(request):
     all_accounts = Account.objects.all()
     currencies = Currency.objects.all()
     ie_types = Category.CATEGORY_TYPES
-    history_records = HistoryRecord.objects.filter(time_of_occurrence__year=today.year, time_of_occurrence__month=today.month).order_by("-time_of_occurrence")
-    transfer_records = TransferRecord.objects.filter(time_of_occurrence__year=today.year, time_of_occurrence__month=today.month).order_by("-time_of_occurrence")
+    history_records = HistoryRecord.objects.filter(time_of_occurrence__year=today.year,
+                                                   time_of_occurrence__month=today.month).order_by(
+        "-time_of_occurrence")
+    transfer_records = TransferRecord.objects.filter(time_of_occurrence__year=today.year,
+                                                     time_of_occurrence__month=today.month).order_by(
+        "-time_of_occurrence")
     income = 0
     expense = 0
     day_has_record = []
@@ -478,6 +554,7 @@ def display_categoryList(request):
     }
     return render(request, "accounting/categoryList.html", context)
 
+
 def display_accountList(request):
     if not request.user.is_authenticated:
         raise PermissionDenied
@@ -485,24 +562,26 @@ def display_accountList(request):
     context = {
         'items': items,
     }
-    return render(request, "accounting/accountList.html",context)
+    return render(request, "accounting/accountList.html", context)
+
 
 def page_demo(request):
     if not request.user.is_authenticated:
         raise PermissionDenied
-    articles=HistoryRecord.objects.all()
+    articles = HistoryRecord.objects.all()
     myFilter = historyRecordFilter(request.GET, queryset=articles)
     items = myFilter.qs
-    paginator_obj=Paginator(items,8) #每页5条
-    request_page_num=request.GET.get('page',1)
-    page_obj=paginator_obj.page(request_page_num)
-    total_page_number=paginator_obj.num_pages
+    paginator_obj = Paginator(items, 8)  # 每页5条
+    request_page_num = request.GET.get('page', 1)
+    page_obj = paginator_obj.page(request_page_num)
+    total_page_number = paginator_obj.num_pages
     context = {
-        'page_obj':page_obj,
-        'paginator_obj':paginator_obj,
+        'page_obj': page_obj,
+        'paginator_obj': paginator_obj,
         'myFilter': myFilter
-        }
-    return render(request,'accounting/page_demo.html',context)
+    }
+    return render(request, 'accounting/page_demo.html', context)
+
 
 def register(request):
     if request.method == "POST":
@@ -523,6 +602,7 @@ def register(request):
                   template_name="registration/register.html",
                   context={"form": form})
 
+
 def legacy(request):
     if not request.user.is_authenticated:
         raise PermissionDenied
@@ -530,10 +610,12 @@ def legacy(request):
     context = {
         'items': items,
     }
-    return render(request, "main/legacy.html",context)
+    return render(request, "main/legacy.html", context)
+
 
 def about(request):
     return render(request, "main/about.html")
+
 
 def faq(request):
     return render(request, "main/faq.html")

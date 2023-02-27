@@ -1,32 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-{% load crispy_forms_tags %}
+    {% load crispy_forms_tags %}
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top border-bottom" style="background-color: white;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/"><img alt="" class="vt-logo-image" src="https://i.imgur.com/za9Otgl.png?1"
-                    width=32 focusable="false" aria-hidden="true"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto"></ul>
+    <body>
 
-                <ul class="navbar-nav mt-2 mt-lg-0">
-                    <li><a class="nav-link" href="/pc/dashboard"><i class="bi-list"></i> 记账</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a class="nav-link" href="{% url 'logout' %}"><i class="bi-box-arrow-down"></i>登出</a></li>
-                    {% else %}
-                    <li><a class="nav-link" href="{% url 'login' %}"><i class="bi-person-circle"></i>登录</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+    {% include 'accounting/navbar.html' %}
     <div class="sidebar">
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -75,9 +54,9 @@
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
                     <form class="form-inline" method="get">
                         {% for field in myFilter.form %}
-                        <p>&nbsp;</p>
-                        {{ field|as_crispy_field }}
-                        <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            {{ field|as_crispy_field }}
+                            <p>&nbsp;</p>
                         {% endfor %}
                         <button class="btn btn-primary" type="submit">Search</button>
                         </table>
@@ -85,33 +64,33 @@
                 </div>
                 <table class="table table-hover">
                     <thead>
-                        <tr>
-                            <th>分类</th>
-                            <th>金额</th>
-                            <th>账户</th>
-                            <th>时间</th>
-                            <th>备注</th>
-                        </tr>
+                    <tr>
+                        <th>分类</th>
+                        <th>金额</th>
+                        <th>账户</th>
+                        <th>时间</th>
+                        <th>备注</th>
+                    </tr>
                     </thead>
 
                     <tbody>
-                        {% for item in page_obj %}
+                    {% for item in page_obj %}
                         <tr>
                             <td>{{ item.category }}</td>
                             <td>{{ item.amount }}</td>
                             <td>{{ item.account }}</td>
-                            <td>{{ item.updated_date}}</td>
+                            <td>{{ item.updated_date }}</td>
                             <td>{{ item.comment }}</td>
                         </tr>
-                        {% endfor %}
+                    {% endfor %}
                     </tbody>
                 </table>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         {% for page_num in paginator_obj.page_range %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-                        </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                            </li>
                         {% endfor %}
                     </ul>
                 </nav>
@@ -132,19 +111,19 @@
 
                 <table class="table table-hover">
                     <thead>
-                        <tr>
-                            <th>分类</th>
-                            <th>金额</th>
-                            <th>转出账户</th>
-                            <th>转入账户</th>
-                            <th>时间</th>
-                            <th>来源</th>
-                            <th>备注</th>
-                        </tr>
+                    <tr>
+                        <th>分类</th>
+                        <th>金额</th>
+                        <th>转出账户</th>
+                        <th>转入账户</th>
+                        <th>时间</th>
+                        <th>来源</th>
+                        <th>备注</th>
+                    </tr>
                     </thead>
 
                     <tbody>
-                        {% for item in items %}
+                    {% for item in items %}
                         <tr>
                             <td>{{ item.category }}</td>
                             <td>{{ item.amount }}</td>
@@ -153,7 +132,7 @@
                             <td>手动记一笔</td>
                             <td>{{ item.VT_Tag }}</td>
                         </tr>
-                        {% endfor %}
+                    {% endfor %}
                     </tbody>
                 </table>
 
@@ -175,8 +154,8 @@
   ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="../../../../assets/js/vendor/popper.min.js"></script>
     <script src="../../../../dist/js/bootstrap.min.js"></script>
@@ -189,5 +168,5 @@
 
     <!-- Graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-</body>
+    </body>
 {% endblock %}
