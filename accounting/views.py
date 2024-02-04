@@ -1,20 +1,20 @@
-from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
-from django.contrib.auth import authenticate, login, logout
+import calendar
+import datetime
+import decimal
+
+from django.contrib.auth import login
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from django.core.paginator import Paginator
-from openpyxl.styles.builtins import currency
+from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
 from rest_framework import permissions, viewsets
 
-from .serializers import UserSerializer, GroupSerializer, TransferRecordSerializer, PhotoSerializer, AccountSerializer, \
+from accounting.filters import *
+from accounting.forms import *
+from accounting.serializers import UserSerializer, GroupSerializer, TransferRecordSerializer, PhotoSerializer, AccountSerializer, \
     CurrencySerializer
-from .models import *
-from .forms import *
-import datetime, calendar
-import decimal
-from .filters import *
 
 
 class UserViewSet(viewsets.ModelViewSet):

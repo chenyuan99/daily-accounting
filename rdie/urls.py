@@ -1,10 +1,8 @@
 from django.contrib import admin
-from django.urls import path, include
 # from django.conf.urls import url
-from django.views.generic.base import TemplateView  # new
 from django.contrib.auth.models import User
+from django.urls import path, include
 from rest_framework import routers, serializers, viewsets
-
 
 
 # Serializers define the API representation.

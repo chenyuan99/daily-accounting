@@ -95,3 +95,8 @@ class TransferRecord(models.Model):
 
     class Meta:
         ordering = ['-time_of_occurrence']
+
+
+class Statement(models.Model):
+    created_date = models.DateTimeField(default=timezone.now)
+    HistoryRecord

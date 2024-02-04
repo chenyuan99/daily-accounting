@@ -30,6 +30,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -59,14 +60,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'rdie.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ds6mjrug7pgs7',
-        'USER': 'kogbqcsiurauii',
-        'PASSWORD': 'f756d38c827fa266c85568ddc3063c6c331b9423d72606ab1c6852d19b286adb',
-        'HOST': 'ec2-44-196-174-238.compute-1.amazonaws.com',
-        'PORT': '5432',
-    }
+    "default": dj_database_url.parse(
+        "postgres://fafnvlvssyhxdd:9eb477360418f8141e95b90ffeb3bd4868adedcd7ec750e64355d23759dd8a56@ec2-52-23-131-232"
+        ".compute-1.amazonaws.com:5432/d7n6hekl6rpir6")
 }
 
 # Password validation
@@ -107,6 +103,8 @@ LOGIN_REDIRECT_URL = '/'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 django_heroku.settings(locals())
 IMPORT_EXPORT_USE_TRANSACTIONS = True
