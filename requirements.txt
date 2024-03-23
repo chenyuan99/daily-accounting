@@ -1,5 +1,5 @@
 asgiref==3.3.1
-Django==3.1.7
+Django==3.2.25
 pytz==2020.5
 uWSGI
 django-heroku
