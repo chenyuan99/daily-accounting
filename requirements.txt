@@ -1,4 +1,4 @@
-asgiref==3.3.1
+asgiref
 Django==3.2.25
 pytz==2020.5
 uWSGI
