@@ -1,5 +1,5 @@
-from django.urls import path, include
-from django.conf.urls import url
+from django.urls import path, include, re_path
+# from django.conf.urls import url
 
 from .views import TransferRecordViewSet, UserViewSet, GroupViewSet, PhotoViewSet, AccountViewSet, CurrencyViewSet
 from . import views
@@ -34,7 +34,7 @@ urlpatterns = [
     path('pc/dashboard/categoryList', views.display_categoryList, name='pc/dashboard/categoryList'),
     path('pc/dashboard/accountList', views.display_accountList, name='pc/dashboard/accountList'),
     path('pc/dashboard/billList', views.page_demo, name='pc/dashboard/billList'),
-    url(r'^page_demo/', views.page_demo),
+    re_path(r'^page_demo/', views.page_demo),
     path("register/", views.register, name="register"),
     # logitistics
     path("legacy", views.legacy, name="legacy"),
