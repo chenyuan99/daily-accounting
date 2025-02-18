@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ title }} - Yuan Accounting{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="container-fluid py-4">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title mb-0">{{ title }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" id="transfer-form" class="form-loading-button">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Initialize datepicker
+    $('.datepicker').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm',
+        icons: {
+            time: 'fas fa-clock',
+            date: 'fas fa-calendar',
+            up: 'fas fa-chevron-up',
+            down: 'fas fa-chevron-down',
+            previous: 'fas fa-chevron-left',
+            next: 'fas fa-chevron-right',
+            today: 'fas fa-calendar-check',
+            clear: 'fas fa-trash',
+            close: 'fas fa-times'
+        }
+    });
+
+    // Handle form submission
+    $('#transfer-form').on('submit', function(e) {
+        e.preventDefault();
+        
+        const $form = $(this);
+        const $submitBtn = $form.find('button[type="submit"]');
+        const originalBtnText = $submitBtn.html();
+        
+        $submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Processing...').prop('disabled', true);
+        
+        $.ajax({
+            url: '{% url "transfer_between_accounts" %}',
+            type: 'POST',
+            data: $form.serialize(),
+            success: function(response) {
+                if (response.status === 'success') {
+                    toastr.success(response.message);
+                    setTimeout(function() {
+                        window.location.href = response.redirect;
+                    }, 1500);
+                } else {
+                    toastr.error(response.message || 'An error occurred');
+                    $submitBtn.html(originalBtnText).prop('disabled', false);
+                }
+            },
+            error: function(xhr) {
+                const response = xhr.responseJSON;
+                if (response && response.errors) {
+                    Object.keys(response.errors).forEach(function(key) {
+                        toastr.error(response.errors[key].join(' '));
+                    });
+                } else {
+                    toastr.error(response.message || 'An error occurred');
+                }
+                $submitBtn.html(originalBtnText).prop('disabled', false);
+            }
+        });
+    });
+
+    // Format currency inputs
+    $('.currency-input').on('input', function() {
+        let value = $(this).val();
+        if (value) {
+            value = parseFloat(value).toFixed(2);
+            if (!isNaN(value)) {
+                $(this).val(value);
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

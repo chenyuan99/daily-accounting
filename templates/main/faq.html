@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ - Yuan Accounting{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-5">Frequently Asked Questions</h1>
+
+    <div class="accordion" id="faqAccordion">
+        <!-- Getting Started -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Getting Started
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <h5>How do I start using Yuan Accounting?</h5>
+                    <p>To get started:</p>
+                    <ol>
+                        <li>Create an account or log in if you already have one</li>
+                        <li>Set up your accounts (e.g., cash, credit cards, bank accounts)</li>
+                        <li>Add your income and expense categories</li>
+                        <li>Start recording your transactions</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accounts -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Managing Accounts
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <h5>How do I add a new account?</h5>
+                    <p>Go to the Accounts page and click the "Add Account" button. Fill in the account details including:</p>
+                    <ul>
+                        <li>Account name</li>
+                        <li>Initial balance</li>
+                        <li>Currency</li>
+                        <li>Account type (e.g., checking, savings, credit card)</li>
+                    </ul>
+
+                    <h5>How do I transfer money between accounts?</h5>
+                    <p>Use the Transfer function to move money between accounts:</p>
+                    <ol>
+                        <li>Click the "Transfer" button</li>
+                        <li>Select source and destination accounts</li>
+                        <li>Enter the transfer amount</li>
+                        <li>Add a description (optional)</li>
+                        <li>Click "Submit"</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Categories and Transactions
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <h5>How do I organize my transactions?</h5>
+                    <p>Use categories to organize your transactions:</p>
+                    <ul>
+                        <li>Create income categories for different revenue sources</li>
+                        <li>Create expense categories for different types of spending</li>
+                        <li>Assign icons to categories for easy recognition</li>
+                        <li>Use the search and filter functions to find specific transactions</li>
+                    </ul>
+
+                    <h5>Can I edit or delete transactions?</h5>
+                    <p>Yes, you can edit or delete any transaction by:</p>
+                    <ol>
+                        <li>Finding the transaction in your records</li>
+                        <li>Clicking the edit (pencil) or delete (trash) icon</li>
+                        <li>Confirming your changes</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    Reports and Analysis
+                </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <h5>What reports are available?</h5>
+                    <p>Yuan Accounting provides several reports:</p>
+                    <ul>
+                        <li>Monthly income and expense summary</li>
+                        <li>Category-wise spending analysis</li>
+                        <li>Account balance trends</li>
+                        <li>Cash flow statements</li>
+                    </ul>
+
+                    <h5>How can I export my data?</h5>
+                    <p>You can export your data in several formats:</p>
+                    <ul>
+                        <li>CSV files for spreadsheet applications</li>
+                        <li>PDF reports for printing or sharing</li>
+                        <li>Detailed transaction histories</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    Support and Help
+                </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <h5>How can I get help?</h5>
+                    <p>There are several ways to get support:</p>
+                    <ul>
+                        <li>Check this FAQ section for common questions</li>
+                        <li>Contact our support team via email</li>
+                        <li>Visit our documentation for detailed guides</li>
+                        <li>Join our community forum for user discussions</li>
+                    </ul>
+
+                    <h5>Is my data secure?</h5>
+                    <p>Yes, we take security seriously:</p>
+                    <ul>
+                        <li>All data is encrypted in transit and at rest</li>
+                        <li>Regular security audits and updates</li>
+                        <li>Secure authentication and authorization</li>
+                        <li>Regular backups to prevent data loss</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
