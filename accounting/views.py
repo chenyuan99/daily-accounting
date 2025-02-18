@@ -10,6 +10,9 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework import permissions, viewsets
+from django.contrib import messages
+from django.urls import reverse
+from django.db import transaction
 
 from accounting.filters import *
 from accounting.forms import *
@@ -158,68 +161,40 @@ def retrieve_subcategory(request):
 
 
 def record_income_expense(request):
-    if request.user.is_authenticated:
-        sub_category = request.POST.get('sub_category')
-        time_now = timezone.now()
-        if sub_category == "select value":
-            try:
-                account = request.POST.get('account')
-                category = request.POST.get('category')
-                currency = request.POST.get('currency')
-                amount = request.POST.get('amount')
-                comment = request.POST.get('comment')
-                time_occur = request.POST.get('time_of_occurrence')
-                history_record = HistoryRecord(account_id=account,
-                                               category_id=category,
-                                               currency_id=currency,
-                                               amount=amount,
-                                               comment=comment,
-                                               time_of_occurrence=time_occur,
-                                               created_date=time_now,
-                                               updated_date=time_now
-                                               )
-                history_record.save()
-                current_account = Account.objects.filter(id=account)[0]
-                current_ie_type = Category.objects.filter(id=category)[0].category_type
-                if current_ie_type.lower() == "expense":
-                    current_account.amount -= decimal.Decimal(amount)
-                elif current_ie_type.lower() == "income":
-                    current_account.amount += decimal.Decimal(amount)
-                current_account.save()
-            except Exception as e:
-                print("not valid in request with error: %s" % str(e))
-        else:
-            form = HistoryRecordForm(request.POST)
-            if form.is_valid():
-                account = form.cleaned_data['account']
-                category = form.cleaned_data['category']
-                sub_category = form.cleaned_data['sub_category']
-                currency = form.cleaned_data['currency']
-                amount = form.cleaned_data['amount']
-                comment = form.cleaned_data['comment']
-                time_occur = form.cleaned_data['time_of_occurrence']
-                history_record = HistoryRecord(account=account,
-                                               category=category,
-                                               sub_category=sub_category,
-                                               currency=currency,
-                                               amount=amount,
-                                               comment=comment,
-                                               time_of_occurrence=time_occur,
-                                               created_date=time_now,
-                                               updated_date=time_now
-                                               )
-                history_record.save()
-                current_ie_type = category.category_type
-                if current_ie_type.lower() == "expense":
-                    account.amount -= decimal.Decimal(amount)
-                elif current_ie_type.lower() == "income":
-                    account.amount += decimal.Decimal(amount)
-                account.save()
+    """Handle income/expense record creation."""
+    if request.method == 'POST':
+        form = HistoryRecordForm(request.POST)
+        if form.is_valid():
+            record = form.save(commit=False)
+            record.owner = request.user
+            record.save()
+            
+            # Update account balance
+            account = record.account
+            if record.category.category_type == 'income':
+                account.amount += record.amount
             else:
-                print("not valid in form")
-        return redirect(index)
+                account.amount -= record.amount
+            account.save()
+            
+            messages.success(request, 'Transaction recorded successfully!')
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Transaction recorded successfully',
+                'redirect': reverse('history')
+            })
+        else:
+            return JsonResponse({
+                'status': 'error',
+                'errors': form.errors
+            }, status=400)
     else:
-        return JsonResponse({"error": "unauthenticated"})
+        form = HistoryRecordForm()
+    
+    return render(request, 'accounting/record_form.html', {
+        'form': form,
+        'title': 'Record Income/Expense'
+    })
 
 
 def retrieve_current_month_income_expense(request):
@@ -450,34 +425,69 @@ def filter_record_by_date(request):
 
 
 def transfer_between_accounts(request):
-    if request.user.is_authenticated:
-        time_now = timezone.now()
+    """Handle transfers between accounts."""
+    if request.method == 'POST':
         form = TransferRecordForm(request.POST)
         if form.is_valid():
-            from_account = form.cleaned_data['from_account']
-            to_account = form.cleaned_data['to_account']
-            if from_account != to_account:
-                transfer_amount = form.cleaned_data['amount']
-                transfer_comment = form.cleaned_data['comment']
-                time_occur = form.cleaned_data['time_of_occurrence']
-                transfer_record = TransferRecord(from_account=from_account,
-                                                 to_account=to_account,
-                                                 amount=transfer_amount,
-                                                 comment=transfer_comment,
-                                                 time_of_occurrence=time_occur,
-                                                 created_date=time_now,
-                                                 updated_date=time_now
-                                                 )
-                transfer_record.save()
-                from_account.amount -= decimal.Decimal(transfer_amount)
-                from_account.save()
-                to_account.amount += decimal.Decimal(transfer_amount)
-                to_account.save()
-            else:
-                print("WARNING: You are transferring money amount between the same account!")
-        return redirect(index)
+            transfer = form.save(commit=False)
+            transfer.owner = request.user
+            
+            # Set currency from source account
+            transfer.currency = transfer.from_account.currency
+            
+            # Validate currencies match
+            if transfer.from_account.currency != transfer.to_account.currency:
+                messages.error(request, 'Cannot transfer between accounts with different currencies')
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Currency mismatch between accounts'
+                }, status=400)
+            
+            # Update account balances
+            from_account = transfer.from_account
+            to_account = transfer.to_account
+            
+            if transfer.amount > from_account.amount:
+                messages.error(request, 'Insufficient funds in source account')
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Insufficient funds'
+                }, status=400)
+            
+            from_account.amount -= transfer.amount
+            to_account.amount += transfer.amount
+            
+            # Save all changes in a transaction
+            try:
+                with transaction.atomic():
+                    transfer.save()
+                    from_account.save()
+                    to_account.save()
+                    
+                messages.success(request, 'Transfer completed successfully!')
+                return JsonResponse({
+                    'status': 'success',
+                    'message': 'Transfer completed successfully',
+                    'redirect': reverse('history')
+                })
+            except Exception as e:
+                messages.error(request, 'An error occurred during transfer')
+                return JsonResponse({
+                    'status': 'error',
+                    'message': str(e)
+                }, status=500)
+        else:
+            return JsonResponse({
+                'status': 'error',
+                'errors': form.errors
+            }, status=400)
     else:
-        return JsonResponse({"error": "unauthenticated"})
+        form = TransferRecordForm()
+    
+    return render(request, 'accounting/transfer_form.html', {
+        'form': form,
+        'title': 'Transfer Between Accounts'
+    })
 
 
 def dashboard(request):
