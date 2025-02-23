@@ -2,74 +2,145 @@
 {% load static %}
 {% block content %}
 
-<body>
-	{% include 'accounting/navbar.html' %}
-	<div class="sidebar">
-		<ul class="nav flex-column">
-			<li class="nav-item">
-				<a class="nav-link" href="/pc/dashboard/billList">
-					<span data-feather="file"></span>
-					我的账单
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link active" href="/pc/dashboard/accountList">
-					<span data-feather="shopping-cart"></span>
-					资金账户
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/pc/dashboard/categoryList">
-					<span data-feather="users"></span>
-					收支分类
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="bar-chart-2"></span>
-					导入账单
-				</a>
-			</li>
-		</ul>
-	</div>
+<!-- <div class="container-fluid"> -->
+    <div class="row">
+        <!-- Modern Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center py-3" href="/pc/dashboard/billList">
+                            <i class="fas fa-file-invoice me-2"></i>
+                            <span>我的账单</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active d-flex align-items-center py-3" href="/pc/dashboard/accountList">
+                            <i class="fas fa-wallet me-2"></i>
+                            <span>资金账户</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center py-3" href="/pc/dashboard/categoryList">
+                            <i class="fas fa-tags me-2"></i>
+                            <span>收支分类</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center py-3" href="#">
+                            <i class="fas fa-file-import me-2"></i>
+                            <span>导入账单</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-	<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-				</tr>
-			</thead>
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.amount }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+<!-- </div> -->
 
-			<tbody>
+<!-- Custom styles for sidebar -->
+<style>
+    .sidebar {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        min-height: calc(100vh - 56px);
+    }
+    
+    .sidebar .nav-link {
+        color: #333;
+        border-radius: 0.25rem;
+        margin: 0.2rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .sidebar .nav-link:hover {
+        color: #007bff;
+        background-color: rgba(0, 123, 255, 0.1);
+        transform: translateX(5px);
+    }
+    
+    .sidebar .nav-link.active {
+        color: #007bff;
+        background-color: rgba(0, 123, 255, 0.1);
+        font-weight: 500;
+    }
+    
+    .sidebar .nav-link i {
+        width: 20px;
+        text-align: center;
+    }
+    
+    @media (max-width: 767.98px) {
+        .sidebar {
+            position: fixed;
+            top: 56px;
+            bottom: 0;
+            left: -100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+        
+        .sidebar.show {
+            left: 0;
+        }
+    }
+</style>
 
-				{% for item in items %}
-				<tr>
-					<td>{{ item.name }}</td>
-					<td>{{ item.amount }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</main>
+<!-- Add JavaScript for mobile sidebar toggle -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleSidebar = () => {
+            const sidebar = document.querySelector('.sidebar');
+            if (window.innerWidth < 768) {
+                sidebar.classList.toggle('show');
+            }
+        };
 
-	<!-- Bootstrap core JavaScript
+        // Toggle sidebar when navbar toggler is clicked
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        if (navbarToggler) {
+            navbarToggler.addEventListener('click', toggleSidebar);
+        }
+    });
+</script>
+
+<!-- Bootstrap core JavaScript
       ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
-	<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-	<script src="../../../../assets/js/vendor/popper.min.js"></script>
-	<script src="../../../../dist/js/bootstrap.min.js"></script>
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="../../../../assets/js/vendor/popper.min.js"></script>
+<script src="../../../../dist/js/bootstrap.min.js"></script>
 
-	<!-- Icons -->
-	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-	<script>
-		feather.replace()
-	</script>
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+	feather.replace()
+</script>
 
-	<!-- Graphs -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-</body>
+<!-- Graphs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
 {% endblock %}

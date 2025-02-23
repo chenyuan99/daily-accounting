@@ -1,3 +1,10 @@
+<!-- {% extends "base.html" %} -->
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!-- Scripts -->
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -71,17 +78,17 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: white;">
+    <!-- <nav class="navbar navbar-expand-lg navbar-light" style="background-color: white;">
         <div class="container">
             <a class="navbar-brand" href="/"><img alt="" class="vt-logo-image" src="https://i.imgur.com/za9Otgl.png?1"
-                    width=32 focusable="false" aria-hidden="true"></a>
+                    width=32 focusable="false" aria-hidden="true"></a> -->
             <!-- 独馨记账 -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+            </button> -->
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
                 <ul class="navbar-nav mr-auto">
                     <div class="form-inline my-2 my-lg-0">
                         <div name="search-elements" style="margin: 0px auto;">
@@ -91,14 +98,11 @@
                         </div>
                     </div>
                 </ul>
-                <ul class="navbar-nav mt-3 mt-lg-0">
-                    <!-- <li><a class="nav-link" href="/pc/dashboard"><i class="bi-list"></i> 记账</a></li> -->
-                    {% if user.is_authenticated %}
-                    <!-- <li><a class="nav-link"><a class="nav-link" href="/"><i class="bi-list"></i>{{user.username|title}}</a></li> -->
-                    <!-- <li><a class="nav-link" href="{% url 'logout' %}"><i class="bi-box-arrow-down"></i>登出</a></li> -->
+                <!-- <ul class="navbar-nav mt-3 mt-lg-0"> -->
+                    <!-- {% if user.is_authenticated %}
                     <div class="dropdown show">
-                        <a class="btn btn-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{user.username|title}}</a>
+                        <a class="btn btn-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+                            <!-- {{user.username|title}}</a>
                         </a>
                       
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -109,11 +113,11 @@
                       </div>
                     {% else %}
                     <li><a class="nav-link" href="{% url 'login' %}"><i class="bi-person-circle"></i>Log in</a></li>
-                    {% endif %}
+                    {% endif %} -->
                 </ul>
-            </div>
+            <!-- </div>
         </div>
-    </nav>
+    </nav> -->
     {% if user.is_authenticated %}
     <div class="container" id="top-container">
         <ul class="nav nav-pills justify-content-center" role="tablist">
@@ -1141,3 +1145,4 @@
 </script>
 
 </html>
+{% endblock %}
