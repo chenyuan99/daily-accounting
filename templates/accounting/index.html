@@ -1,5 +1,4 @@
-<!-- {% extends "base.html" %} -->
-{% load static %}
+{% extends "base.html" %}{% load static %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -64,60 +63,19 @@
             color: #e87722;
             /* background-color: #e87722; */
         }
-
-        .footer {
-            bottom: 0;
-            width: 100%;
-            height: 60px;
-            /* Set the fixed height of the footer here */
-            line-height: 60px;
-            /* Vertically center the text there */
-            background-color: #f5f5f5;
-        }
     </style>
 </head>
 
 <body>
-    <!-- <nav class="navbar navbar-expand-lg navbar-light" style="background-color: white;">
-        <div class="container">
-            <a class="navbar-brand" href="/"><img alt="" class="vt-logo-image" src="https://i.imgur.com/za9Otgl.png?1"
-                    width=32 focusable="false" aria-hidden="true"></a> -->
-            <!-- 独馨记账 -->
-            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button> -->
-
-            <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
-                <ul class="navbar-nav mr-auto">
-                    <div class="form-inline my-2 my-lg-0">
-                        <div name="search-elements" style="margin: 0px auto;">
-                            <input class="form-control mr-sm-2" type="search" id="search-keyword" placeholder="请输入内容">
-                            <button class="btn btn-light my-2 my-sm-0" id="search-record" type="submit"><i
-                                    class="fa fa-search" aria-hidden="true">搜索账单</i></button>
-                        </div>
-                    </div>
-                </ul>
-                <!-- <ul class="navbar-nav mt-3 mt-lg-0"> -->
-                    <!-- {% if user.is_authenticated %}
-                    <div class="dropdown show">
-                        <a class="btn btn-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-                            <!-- {{user.username|title}}</a>
-                        </a>
-                      
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                          <a class="dropdown-item" href="/pc/dashboard"> 记账</a>
-                          <a class="dropdown-item" href="#">Account</a>
-                        </div>
-                      </div>
-                    {% else %}
-                    <li><a class="nav-link" href="{% url 'login' %}"><i class="bi-person-circle"></i>Log in</a></li>
-                    {% endif %} -->
-                </ul>
-            <!-- </div>
+    <ul class="navbar-nav mr-auto">
+        <div class="form-inline my-2 my-lg-0">
+            <div name="search-elements" style="margin: 0px auto;">
+                <input class="form-control mr-sm-2" type="search" id="search-keyword" placeholder="请输入内容">
+                <button class="btn btn-light my-2 my-sm-0" id="search-record" type="submit"><i class="fa fa-search"
+                        aria-hidden="true">搜索账单</i></button>
+            </div>
         </div>
-    </nav> -->
+    </ul>
     {% if user.is_authenticated %}
     <div class="container" id="top-container">
         <ul class="nav nav-pills justify-content-center" role="tablist">
@@ -215,8 +173,8 @@
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <button id="show-custom-record" class="btn btn-light btn-block"
-                                    type="submit">Filter By Date</button>
+                                <button id="show-custom-record" class="btn btn-light btn-block" type="submit">Filter By
+                                    Date</button>
                             </div>
                         </div>
                         <hr width="90%" class="main-separator" />
@@ -389,7 +347,6 @@
     {% endif %}
 
     <a id="back-to-top" href="#" class="btn btn-lg back-to-top" role="button"><i class="bi bi-arrow-up-circle"></i></a>
-    {% include 'footer.html' %}
 </body>
 <script>$.ajaxSetup({ headers: { "X-CSRFToken": '{{ csrf_token }}' } });</script>
 <script>
@@ -901,22 +858,12 @@
                     type: 'line',
                     color: '#FF4500',
                     data: [],
-                    // animationDelay: function (idx) {
-                    //     return idx * 10;
-                    // }
                 }, {
                     name: '收入',
                     type: 'line',
                     color: '#3CB371',
                     data: [],
-                    // animationDelay: function (idx) {
-                    //     return idx * 10 + 100;
-                    // }
                 }],
-                // animationEasing: 'elasticOut',
-                // animationDelayUpdate: function (idx) {
-                //     return idx * 5;
-                // }
             };
             yearBarChart.setOption(yearBarOption);
 
