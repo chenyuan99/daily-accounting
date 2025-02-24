@@ -1,172 +1,350 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Dashboard - Yuan Accounting{% endblock %}
+
 {% block content %}
-    {% load crispy_forms_tags %}
+<!-- <div class="container-fluid"> -->
+    <div class="row">
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active d-flex align-items-center py-3" href="/pc/dashboard/billList">
+                            <i class="fas fa-file-invoice me-2"></i>
+                            <span>我的账单</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center py-3" href="/pc/dashboard/accountList">
+                            <i class="fas fa-wallet me-2"></i>
+                            <span>资金账户</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center py-3" href="/pc/dashboard/categoryList">
+                            <i class="fas fa-tags me-2"></i>
+                            <span>收支分类</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center py-3" href="#">
+                            <i class="fas fa-file-import me-2"></i>
+                            <span>导入账单</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-    <body>
-
-    {% include 'accounting/navbar.html' %}
-    <div class="sidebar">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" href="/pc/dashboard/billList">
-                    <span data-feather="file"></span>
-                    我的账单
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/pc/dashboard/accountList">
-                    <span data-feather="shopping-cart"></span>
-                    资金账户
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/pc/dashboard/categoryList">
-                    <span data-feather="users"></span>
-                    收支分类
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/accounting/historyrecord/import/">
-                    <span data-feather="bar-chart-2"></span>
-                    导入账单
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <main role="main" class="ml-sm-auto col-lg-10 pt-3 px-4">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#expanse" id="#expanse">支出</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#income" id="#income">收入</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#transfer" id="#transfer">转账</a>
-            </li>
-        </ul>
-
-        <div class="tab-content">
-            <div id="expanse" class="container-fluid tab-pane active">
-                <br>
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
-                    <form class="form-inline" method="get">
-                        {% for field in myFilter.form %}
-                            <p>&nbsp;</p>
-                            {{ field|as_crispy_field }}
-                            <p>&nbsp;</p>
-                        {% endfor %}
-                        <button class="btn btn-primary" type="submit">Search</button>
-                        </table>
-                    </form>
+        <!-- Main Content -->
+        <main class="col-md-9 col-lg-10 content-wrapper">
+            <!-- Header -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Financial Dashboard</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button type="button" class="btn btn-sm btn-outline-primary me-2" id="refresh-data">
+                        <i class="fas fa-sync-alt me-1"></i> Refresh
+                    </button>
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="export-pdf">
+                            <i class="fas fa-file-pdf me-1"></i> PDF
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="export-excel">
+                            <i class="fas fa-file-excel me-1"></i> Excel
+                        </button>
+                    </div>
                 </div>
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>分类</th>
-                        <th>金额</th>
-                        <th>账户</th>
-                        <th>时间</th>
-                        <th>备注</th>
-                    </tr>
-                    </thead>
+            </div>
 
-                    <tbody>
-                    {% for item in page_obj %}
-                        <tr>
-                            <td>{{ item.category }}</td>
-                            <td>{{ item.amount }}</td>
-                            <td>{{ item.account }}</td>
-                            <td>{{ item.updated_date }}</td>
-                            <td>{{ item.comment }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        {% for page_num in paginator_obj.page_range %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-                            </li>
-                        {% endfor %}
+            <!-- Transaction Tabs -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-transparent border-0 pb-0">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#expanse" role="tab">
+                                <i class="fas fa-arrow-right text-danger me-1"></i> Expenses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#income" role="tab">
+                                <i class="fas fa-arrow-left text-success me-1"></i> Income
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#transfer" role="tab">
+                                <i class="fas fa-exchange-alt text-primary me-1"></i> Transfer
+                            </a>
+                        </li>
                     </ul>
-                </nav>
-            </div>
-            <div id="income" class="container-fluid tab-pane"><br>
-                income
-            </div>
-            <div id="transfer" class="container-fluid tab-pane"><br>
-
-                <br>
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
-                    <p>时间从</p>
-                    <span>到</span>
-                    <span>分类：</span>
-                    <span>账户：</span>
-                    <span>来源：</span>
                 </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <!-- Expenses Tab -->
+                        <div id="expanse" class="tab-pane fade show active" role="tabpanel">
+                            <!-- Filter Form -->
+                            <div class="accordion mb-4" id="filterAccordion">
+                                <div class="accordion-item border-0">
+                                    <h2 class="accordion-header" id="filterHeading">
+                                        <button class="accordion-button collapsed shadow-none" type="button" 
+                                                data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+                                            <i class="fas fa-filter me-2"></i> Filter Options
+                                        </button>
+                                    </h2>
+                                    <div id="filterCollapse" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
+                                        <div class="accordion-body">
+                                            <form class="row g-3" method="get">
+                                                {% for field in myFilter.form %}
+                                                <div class="col-md-3">
+                                                    {{ field|as_crispy_field }}
+                                                </div>
+                                                {% endfor %}
+                                                <div class="col-12">
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fas fa-search me-1"></i> Apply Filters
+                                                    </button>
+                                                    <button type="reset" class="btn btn-outline-secondary">
+                                                        <i class="fas fa-times me-1"></i> Clear
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>分类</th>
-                        <th>金额</th>
-                        <th>转出账户</th>
-                        <th>转入账户</th>
-                        <th>时间</th>
-                        <th>来源</th>
-                        <th>备注</th>
-                    </tr>
-                    </thead>
+                            <!-- Transactions Table -->
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Account</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Notes</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in page_obj %}
+                                        <tr>
+                                            <td>
+                                                <span class="badge bg-light text-dark">
+                                                    <i class="fas fa-tag me-1"></i>
+                                                    {{ item.category }}
+                                                </span>
+                                            </td>
+                                            <td class="text-danger fw-bold">-{{ item.amount }}</td>
+                                            <td>
+                                                <span class="badge bg-light text-dark">
+                                                    <i class="fas fa-wallet me-1"></i>
+                                                    {{ item.account }}
+                                                </span>
+                                            </td>
+                                            <td>{{ item.updated_date|date:"M d, Y" }}</td>
+                                            <td>
+                                                {% if item.comment %}
+                                                <span class="text-muted">{{ item.comment }}</span>
+                                                {% else %}
+                                                <span class="text-muted fst-italic">No notes</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" 
+                                                            data-bs-toggle="tooltip" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                                            data-bs-toggle="tooltip" title="Delete">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
 
-                    <tbody>
-                    {% for item in items %}
-                        <tr>
-                            <td>{{ item.category }}</td>
-                            <td>{{ item.amount }}</td>
-                            <td>${{ item.price }}</td>
-                            <td>{{ item.account }}</td>
-                            <td>手动记一笔</td>
-                            <td>{{ item.VT_Tag }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                            <!-- Pagination -->
+                            <nav aria-label="Page navigation" class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1" aria-label="First">
+                                            <i class="fas fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" 
+                                           aria-label="Previous">
+                                            <i class="fas fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                    {% endif %}
 
+                                    {% for page_num in paginator_obj.page_range %}
+                                    <li class="page-item {% if page_obj.number == page_num %}active{% endif %}">
+                                        <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                                    </li>
+                                    {% endfor %}
+
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" 
+                                           aria-label="Next">
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" 
+                                           aria-label="Last">
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <!-- Income Tab -->
+                        <div id="income" class="tab-pane fade" role="tabpanel">
+                            <div class="text-center py-5">
+                                <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                                <h5>Income Records</h5>
+                                <p class="text-muted">Track your income sources and manage your revenue streams.</p>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fas fa-plus me-1"></i> Add Income
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Transfer Tab -->
+                        <div id="transfer" class="tab-pane fade" role="tabpanel">
+                            <div class="text-center py-5">
+                                <i class="fas fa-exchange-alt fa-3x text-muted mb-3"></i>
+                                <h5>Transfer Records</h5>
+                                <p class="text-muted">Move money between your accounts and track transfers.</p>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fas fa-plus me-1"></i> New Transfer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <!-- <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                {% for page_num in paginator_obj.page_range %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </nav> -->
-    </main>
+        </main>
+    </div>
+<!-- Custom styles for sidebar -->
+<style>
+    .sidebar {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        min-height: calc(100vh - 56px);
+    }
+    
+    .sidebar .nav-link {
+        color: #333;
+        border-radius: 0.25rem;
+        margin: 0.2rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .sidebar .nav-link:hover {
+        color: #007bff;
+        background-color: rgba(0, 123, 255, 0.1);
+        transform: translateX(5px);
+    }
+    
+    .sidebar .nav-link.active {
+        color: #007bff;
+        background-color: rgba(0, 123, 255, 0.1);
+        font-weight: 500;
+    }
+    
+    .sidebar .nav-link i {
+        width: 20px;
+        text-align: center;
+    }
+    
+    @media (max-width: 767.98px) {
+        .sidebar {
+            position: fixed;
+            top: 56px;
+            bottom: 0;
+            left: -100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+        
+        .sidebar.show {
+            left: 0;
+        }
+    }
+</style>
 
+<!-- Add JavaScript for mobile sidebar toggle -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleSidebar = () => {
+            const sidebar = document.querySelector('.sidebar');
+            if (window.innerWidth < 768) {
+                sidebar.classList.toggle('show');
+            }
+        };
 
-    <!-- Bootstrap core JavaScript
-  ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="../../../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../../../dist/js/bootstrap.min.js"></script>
+        // Toggle sidebar when navbar toggler is clicked
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        if (navbarToggler) {
+            navbarToggler.addEventListener('click', toggleSidebar);
+        }
+    });
+</script>
 
-    <!-- Icons -->
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-        feather.replace()
-    </script>
+{% endblock %}
 
-    <!-- Graphs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-    </body>
+{% block extra_scripts %}
+<script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+    // Handle active tab state
+    var hash = window.location.hash;
+    if (hash) {
+        $('.nav-tabs a[href="' + hash + '"]').tab('show');
+    }
+
+    // Update URL hash when tab changes
+    $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash;
+    });
+
+    // Handle filter form reset
+    document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = window.location.pathname;
+    });
+
+    // Handle export buttons
+    document.getElementById('export-pdf').addEventListener('click', function() {
+        // Add PDF export functionality
+        alert('PDF export coming soon!');
+    });
+
+    document.getElementById('export-excel').addEventListener('click', function() {
+        // Add Excel export functionality
+        alert('Excel export coming soon!');
+    });
+
+    // Handle refresh button
+    document.getElementById('refresh-data').addEventListener('click', function() {
+        location.reload();
+    });
+</script>
 {% endblock %}
