@@ -623,6 +623,10 @@ def legacy(request):
     return render(request, "main/legacy.html", context)
 
 
+def health(request):
+    return JsonResponse({"status": "ok"})
+
+
 def about(request):
     return render(request, "main/about.html")
 
