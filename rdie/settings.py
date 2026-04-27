@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 import json
-import django_heroku
 import dj_database_url
 from dotenv import load_dotenv
 
@@ -154,6 +153,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-django_heroku.settings(locals())
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
