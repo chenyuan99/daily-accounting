@@ -9,7 +9,7 @@ WORKDIR /code
 
 RUN apt-get update && \
     apt-get -y install --no-install-recommends \
-    libsasl2-dev python3-dev libldap2-dev libssl-dev libsnmp-dev && \
+    libsasl2-dev python3-dev libldap2-dev libssl-dev libsnmp-dev libpq-dev && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --no-cache-dir -r requirements.txt
