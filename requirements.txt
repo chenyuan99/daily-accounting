@@ -9,7 +9,7 @@ django-import-export
 django-crispy-forms~=1.14.0
 django-filter~=25.2
 sqlparse==0.5.5
-pymysql==1.1.2
+psycopg2-binary
 django-redis
 markdown
 cloudinary~=1.44.0
